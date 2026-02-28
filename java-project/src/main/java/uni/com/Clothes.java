@@ -48,4 +48,24 @@ public class Clothes {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    /**
+     * Повертає текстове представлення об'єкта.
+     */
+    @Override
+    public String toString() {
+        return "Clothes{name='" + name + "', color='" + color + "', size='" + size + "', price=" + price + "}";
+    }
+
+    /**
+     * Порівняння об'єктів.
+     */
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj) return true;
+        if(!(obj instanceof Clothes)) return false;
+
+        Clothes c = (Clothes)obj;
+        return name.equals(c.name) && color.equals(c.color) && size.equals(c.size) && price == c.price;
+    }
 }
