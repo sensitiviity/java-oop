@@ -84,7 +84,7 @@ public class Clothes {
      */
     @Override
     public String toString() {
-        return "Clothes{name='" + name + "', color='" + color + "', size='" + size + "', price=" + price + "', brand='" + brand + "', material='" + material + "}";
+        return "Clothes{name='" + name + "', color='" + color + "', size='" + size + "', price=" + price + "', brand='" + brand + "', material='" + material + "'}";
     }
 
     /**
