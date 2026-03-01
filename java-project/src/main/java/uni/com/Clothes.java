@@ -50,26 +50,32 @@ public class Clothes {
 
     //сетери
     public void setName(String name) {
+        if(name == null || name.isEmpty()) throw new IllegalArgumentException("Name cannot be empty");
         this.name = name;
     }
 
     public void setColor(String color) {
+        if(color == null || color.isEmpty()) throw new IllegalArgumentException("Color cannot be empty");
         this.color = color;
     }
 
     public void setSize(String size) {
+        if(size == null || size.isEmpty()) throw new IllegalArgumentException("Size cannot be empty");
         this.size = size;
     }
 
     public void setPrice(double price) {
+        if(price < 0) throw new IllegalArgumentException("Price cannot be negative");
         this.price = price;
     }
 
     public void setBrand(String brand) {
+        if(brand == null || brand.isEmpty()) throw new IllegalArgumentException("Brand cannot be empty");
         this.brand = brand;
     }
 
     public void setMaterial(String material) {
+        if(material == null || material.isEmpty()) throw new IllegalArgumentException("Material cannot be empty");
         this.material = material;
     }
 
@@ -78,7 +84,7 @@ public class Clothes {
      */
     @Override
     public String toString() {
-        return "Clothes{name='" + name + "', color='" + color + "', size='" + size + "', price=" + price + "}";
+        return "Clothes{name='" + name + "', color='" + color + "', size='" + size + "', price=" + price + "', brand='" + brand + "', material='" + material + "}";
     }
 
     /**
@@ -90,6 +96,6 @@ public class Clothes {
         if(!(obj instanceof Clothes)) return false;
 
         Clothes c = (Clothes)obj;
-        return name.equals(c.name) && color.equals(c.color) && size.equals(c.size) && price == c.price;
+        return name.equals(c.name) && color.equals(c.color) && size.equals(c.size) && price == c.price && brand.equals(c.brand) && material.equals(c.material);
     }
 }
