@@ -8,15 +8,19 @@ public class Clothes {
     private String color;
     private String size;
     private double price;
+    private String brand;
+    private String material;
 
     /**
      * Конструктор з параметрами.
      */
-    public Clothes(String name, String color, String size, double price) {
-        this.name = name;
-        this.color = color;
-        this.size = size;
-        this.price = price;
+    public Clothes(String name, String color, String size, double price, String brand, String material) {
+        setName(name);
+        setColor(color);
+        setSize(size);
+        setPrice(price);
+        setBrand(brand);
+        setMaterial(material);
     }
 
     //гетери
@@ -36,9 +40,21 @@ public class Clothes {
         return price;
     }
 
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
     //сетери
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public void setSize(String size) {
@@ -47,6 +63,14 @@ public class Clothes {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
     }
 
     /**
