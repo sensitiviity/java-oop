@@ -104,7 +104,7 @@ public class Clothes {
      */
     @Override
     public String toString() {
-        return "Clothes{name='" + name + "', color='" + color + "', size='" + size + "', price=" + price + "', brand='" + brand + "', material='" + material + "'}";
+        return "Clothes{name='" + name + "', color='" + color + "', size='" + size + "', price='" + price + "', brand='" + brand + "', material='" + material + "'}";
     }
 
     /**
@@ -128,6 +128,7 @@ public class Clothes {
      * @param other object to copy
      */
     public Clothes(Clothes other) {
+        if (other == null) throw new IllegalArgumentException("Object to copy cannot be null");
         this.name = other.name;
         this.color = other.color;
         this.size = other.size;

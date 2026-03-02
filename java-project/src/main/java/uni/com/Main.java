@@ -11,12 +11,12 @@ import java.util.Scanner;
 public class Main {
     /**
      * Application entry point.
-     *
-     * @param args command-line arguments (not used)
+     * @param args command line arguments (not used)
      */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Clothes[] clothes = null;
+        Wardrobe wardrobe = null;
         int count = 0;
 
         while (true) {
@@ -82,18 +82,16 @@ public class Main {
                             }
                         }
                     }
+                    wardrobe = new Wardrobe(clothes);
                     break;
                 case "2":
-                    if(clothes == null) {
+                    if(wardrobe == null) {
                         System.out.println("No objects created");
                         break;
                     }
 
                     System.out.println("\n=== All elements ===");
-
-                    for (int i = 0; i < count; i++) {
-                        System.out.println(clothes[i]);
-                    }
+                    wardrobe.display();
                     break;
                 case "3":
                     sc.close();
