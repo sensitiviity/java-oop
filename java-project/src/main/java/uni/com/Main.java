@@ -4,9 +4,17 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- * Драйвер програми.
+ * Driver class of the application.
+ *
+ * Provides console menu for: creating Clothes objects, displaying stored objects and terminating program.
+ * All user input errors are handled without terminating the program.
  */
 public class Main {
+    /**
+     * Application entry point.
+     *
+     * @param args command-line arguments (not used)
+     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Clothes[] clothes = null;

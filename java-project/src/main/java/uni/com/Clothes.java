@@ -1,7 +1,9 @@
 package uni.com;
 
 /**
- * Клас, що описує одяг
+ * Represents a clothing item with characteristics: name, color, size, price, brand and material.
+ *
+ * The class provides validation of input data in constructors and setters. Invalid values cause IllegalArgumentException}.
  */
 public class Clothes {
     private String name;
@@ -12,7 +14,16 @@ public class Clothes {
     private String material;
 
     /**
-     * Конструктор з параметрами.
+     * Creates a new {@code Clothes} object.
+     *
+     * @param name name of clothes (cannot be empty)
+     * @param color color (cannot be empty)
+     * @param size size (cannot be empty)
+     * @param price price (must be non-negative)
+     * @param brand brand name (cannot be empty)
+     * @param material material type (cannot be empty)
+     *
+     * @throws IllegalArgumentException if any parameter is invalid
      */
     public Clothes(String name, String color, String size, double price, String brand, String material) {
         setName(name);
@@ -80,7 +91,9 @@ public class Clothes {
     }
 
     /**
-     * Повертає текстове представлення об'єкта.
+     * Returns string representation of the object.
+     *
+     * @return formatted string describing clothes
      */
     @Override
     public String toString() {
@@ -88,7 +101,10 @@ public class Clothes {
     }
 
     /**
-     * Порівняння об'єктів.
+     * Compares this object with another for equality.
+     *
+     * @param obj object to compare
+     * @return true if objects contain identical data
      */
     @Override
     public boolean equals(Object obj){
