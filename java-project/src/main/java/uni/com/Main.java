@@ -67,6 +67,7 @@ public class Main {
 
                                 sc.nextLine();
                                 clothes[i] = new Clothes(name, color, size, price, brand, material);
+                                System.out.println("Objects created: " + Clothes.getObjectCount());
                                 break;
                             } catch (InputMismatchException e) {
                                 System.out.println("Invalid input");
