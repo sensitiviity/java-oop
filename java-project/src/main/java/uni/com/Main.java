@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 /**
  * Driver class of the application.
- *
  * Provides console menu for: creating Clothes objects, displaying stored objects and terminating program.
  * All user input errors are handled without terminating the program.
  */
@@ -56,8 +55,14 @@ public class Main {
                                 String name = sc.next();
                                 System.out.println("Enter color: ");
                                 String color = sc.next();
-                                System.out.println("Enter size: ");
-                                String size = sc.next();
+                                System.out.println("Enter size (XXS, XS, S, M, L, XL, XXL): ");
+                                Size size;
+                                try{
+                                    size = Size.valueOf(sc.next().toUpperCase());
+                                }catch(IllegalArgumentException e){
+                                    System.out.println("Invalid size");
+                                    continue;
+                                }
                                 System.out.println("Enter price: ");
                                 double price = sc.nextDouble();
                                 System.out.println("Enter brand: ");

@@ -2,15 +2,14 @@ package uni.com;
 
 /**
  * Represents a clothing item with characteristics: name, color, size, price, brand and material.
- *
- * The class provides validation of input data in constructors and setters. Invalid values cause IllegalArgumentException}.
+ * The class provides validation of input data in constructors and setters. Invalid values cause IllegalArgumentException.
  */
 public class Clothes {
     private static int objectCount = 0;
 
     private String name;
     private String color;
-    private String size;
+    private Size size;
     private double price;
     private String brand;
     private String material;
@@ -27,7 +26,7 @@ public class Clothes {
      *
      * @throws IllegalArgumentException if any parameter is invalid
      */
-    public Clothes(String name, String color, String size, double price, String brand, String material) {
+    public Clothes(String name, String color, Size size, double price, String brand, String material) {
         setName(name);
         setColor(color);
         setSize(size);
@@ -47,7 +46,7 @@ public class Clothes {
         return color;
     }
 
-    public String getSize() {
+    public Size getSize() {
         return size;
     }
 
@@ -78,8 +77,8 @@ public class Clothes {
         this.color = color;
     }
 
-    public void setSize(String size) {
-        if(size == null || size.isEmpty()) throw new IllegalArgumentException("Size cannot be empty");
+    public void setSize(Size size) {
+        if(size == null) throw new IllegalArgumentException("Size cannot be empty");
         this.size = size;
     }
 
