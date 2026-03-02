@@ -114,4 +114,18 @@ public class Clothes {
         Clothes c = (Clothes)obj;
         return name.equals(c.name) && color.equals(c.color) && size.equals(c.size) && price == c.price && brand.equals(c.brand) && material.equals(c.material);
     }
+
+    /**
+     * Copy constructor.
+     *
+     * @param other object to copy
+     */
+    public Clothes(Clothes other) {
+        this.name = other.name;
+        this.color = other.color;
+        this.size = other.size;
+        this.price = other.price;
+        this.brand = other.brand;
+        this.material = other.material;
+    }
 }
