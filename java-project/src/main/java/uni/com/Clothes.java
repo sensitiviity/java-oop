@@ -5,8 +5,6 @@ package uni.com;
  * The class provides validation of input data in constructors and setters. Invalid values cause IllegalArgumentException.
  */
 public class Clothes {
-    private static int objectCount = 0;
-
     private String name;
     private String color;
     private Size size;
@@ -33,8 +31,6 @@ public class Clothes {
         setPrice(price);
         setBrand(brand);
         setMaterial(material);
-
-        objectCount++;
     }
 
     //гетери
@@ -60,10 +56,6 @@ public class Clothes {
 
     public String getMaterial() {
         return material;
-    }
-
-    public static int getObjectCount() {
-        return objectCount;
     }
 
     //сетери
@@ -135,7 +127,5 @@ public class Clothes {
         this.price = other.price;
         this.brand = other.brand;
         this.material = other.material;
-
-        objectCount++;
     }
 }
