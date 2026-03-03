@@ -8,6 +8,11 @@ import java.util.Scanner;
  * Handles invalid input without terminating program.
  */
 public class Main {
+    /**
+     * Starts the console application.
+     *
+     * @param args command-line arguments (not used)
+     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         ArrayList<Clothes> clothesList = new ArrayList<>();
@@ -44,6 +49,12 @@ public class Main {
         }
     }
 
+    /**
+     * Creates a Pants object using console input.
+     *
+     * @param sc Scanner object for reading user input
+     * @return a valid Pants object
+     */
     private static Pants createPants(Scanner sc) {
         while (true) {
             try {
@@ -89,6 +100,12 @@ public class Main {
         }
     }
 
+    /**
+     * Creates a Shirts object using console input.
+     *
+     * @param sc Scanner object for reading user input
+     * @return a valid Shirts object
+     */
     private static Shirts createShirts(Scanner sc) {
         while (true) {
             try {
