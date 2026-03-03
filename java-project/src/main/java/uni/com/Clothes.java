@@ -128,6 +128,7 @@ public class Clothes {
      * @param other object to copy
      */
     public Clothes(Clothes other) {
+        if (other == null) throw new IllegalArgumentException("Object to copy cannot be null");
         this.name = other.name;
         this.color = other.color;
         this.size = other.size;

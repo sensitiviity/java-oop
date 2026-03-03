@@ -7,9 +7,14 @@ import java.util.Scanner;
  * Handles invalid input without terminating program.
  */
 public class Main {
+    /**
+     * Application entry point.
+     *
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Clothes[] clothes = new Clothes[0];
+        Wardrobe wardrobe = null;
 
         while (true) {
             System.out.println("\n1 - Create new object\n2 - Show all\n3 - Exit");
@@ -39,13 +44,11 @@ public class Main {
                             String material = sc.nextLine();
 
                             Clothes newClothes = new Clothes(name, color, size, price, brand, material);
-
-                            Clothes[] newArray = new Clothes[clothes.length + 1];
-                            for (int i = 0; i < clothes.length; i++) {
-                                newArray[i] = clothes[i];
+                            if (wardrobe == null) {
+                                wardrobe = new Wardrobe(new Clothes[]{newClothes});
+                            } else {
+                                wardrobe.addClothes(newClothes);
                             }
-                            newArray[newArray.length - 1] = newClothes;
-                            clothes = newArray;
                             System.out.println("Objects created: " + Clothes.getObjectCount());
 
                             break;
@@ -58,15 +61,13 @@ public class Main {
                     }
                     break;
                 case "2":
-                    if(clothes.length == 0) {
+                    if(wardrobe == null) {
                         System.out.println("No objects created");
                         break;
                     }
 
                     System.out.println("\n=== All elements ===");
-                    for (Clothes c : clothes) {
-                        System.out.println(c);
-                    }
+                    wardrobe.display();
                     break;
                 case "3":
                     sc.close();
