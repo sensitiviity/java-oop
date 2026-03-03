@@ -1,29 +1,40 @@
 package uni.com;
 
 /**
- * Creates Clothes object with validation.
- * @throws IllegalArgumentException if parameters are invalid
+ * Represents a clothing item with characteristics: name, color, size, price, brand and material.
+ * The class provides validation of input data in constructors and setters. Invalid values cause IllegalArgumentException.
  */
 public class Clothes {
+    private static int objectCount = 0;
+
     private String name;
     private String color;
-    private String size;
+    private Size size;
     private double price;
     private String brand;
     private String material;
 
     /**
-     * Creates Clothes object with validation.
+     * Creates a new {@code Clothes} object.
      *
-     * @throws IllegalArgumentException if parameters are invalid
+     * @param name name of clothes (cannot be empty)
+     * @param color color (cannot be empty)
+     * @param size size (cannot be empty)
+     * @param price price (must be non-negative)
+     * @param brand brand name (cannot be empty)
+     * @param material material type (cannot be empty)
+     *
+     * @throws IllegalArgumentException if any parameter is invalid
      */
-    public Clothes(String name, String color, String size, double price, String brand, String material) {
+    public Clothes(String name, String color, Size size, double price, String brand, String material) {
         setName(name);
         setColor(color);
         setSize(size);
         setPrice(price);
         setBrand(brand);
         setMaterial(material);
+
+        objectCount++;
     }
 
     //гетери
@@ -35,7 +46,7 @@ public class Clothes {
         return color;
     }
 
-    public String getSize() {
+    public Size getSize() {
         return size;
     }
 
@@ -51,6 +62,10 @@ public class Clothes {
         return material;
     }
 
+    public static int getObjectCount() {
+        return objectCount;
+    }
+
     //сетери
     public void setName(String name) {
         if(name == null || name.isEmpty()) throw new IllegalArgumentException("Name cannot be empty");
@@ -62,8 +77,8 @@ public class Clothes {
         this.color = color;
     }
 
-    public void setSize(String size) {
-        if(size == null || size.isEmpty()) throw new IllegalArgumentException("Size cannot be empty");
+    public void setSize(Size size) {
+        if(size == null) throw new IllegalArgumentException("Size cannot be empty");
         this.size = size;
     }
 
@@ -83,15 +98,20 @@ public class Clothes {
     }
 
     /**
-     * Returns formatted string representation.
+     * Returns string representation of the object.
+     *
+     * @return formatted string describing clothes
      */
     @Override
     public String toString() {
-        return "name=" + name + ", color=" + color + ", size=" + size + ", price=" + price + ", brand=" + brand + ", material=" + material;
+        return "Clothes{name='" + name + "', color='" + color + "', size='" + size + "', price='" + price + "', brand='" + brand + "', material='" + material + "'}";
     }
 
     /**
-     * Compares two Clothes objects.
+     * Compares this object with another for equality.
+     *
+     * @param obj object to compare
+     * @return true if objects contain identical data
      */
     @Override
     public boolean equals(Object obj){
@@ -100,5 +120,22 @@ public class Clothes {
 
         Clothes c = (Clothes)obj;
         return name.equals(c.name) && color.equals(c.color) && size.equals(c.size) && price == c.price && brand.equals(c.brand) && material.equals(c.material);
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param other object to copy
+     */
+    public Clothes(Clothes other) {
+        if (other == null) throw new IllegalArgumentException("Object to copy cannot be null");
+        this.name = other.name;
+        this.color = other.color;
+        this.size = other.size;
+        this.price = other.price;
+        this.brand = other.brand;
+        this.material = other.material;
+
+        objectCount++;
     }
 }
