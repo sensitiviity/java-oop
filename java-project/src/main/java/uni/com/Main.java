@@ -1,6 +1,5 @@
 package uni.com;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -41,6 +40,7 @@ public class Main {
                             }
                             newArray[newArray.length - 1] = newClothes;
                             clothes = newArray;
+                            System.out.println("Objects created: " + Clothes.getObjectCount());
 
                             break;
                         } catch (NumberFormatException   e) {

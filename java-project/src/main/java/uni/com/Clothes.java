@@ -5,6 +5,8 @@ package uni.com;
  * The class provides validation of input data in constructors and setters. Invalid values cause IllegalArgumentException.
  */
 public class Clothes {
+    private static int objectCount = 0;
+
     private String name;
     private String color;
     private String size;
@@ -13,7 +15,7 @@ public class Clothes {
     private String material;
 
     /**
-     * Creates a new Clothes object.
+     * Creates a new {@code Clothes} object.
      *
      * @param name name of clothes (cannot be empty)
      * @param color color (cannot be empty)
@@ -31,6 +33,8 @@ public class Clothes {
         setPrice(price);
         setBrand(brand);
         setMaterial(material);
+
+        objectCount++;
     }
 
     //гетери
@@ -56,6 +60,10 @@ public class Clothes {
 
     public String getMaterial() {
         return material;
+    }
+
+    public static int getObjectCount() {
+        return objectCount;
     }
 
     //сетери
@@ -96,7 +104,7 @@ public class Clothes {
      */
     @Override
     public String toString() {
-        return "name=" + name + ", color=" + color + ", size=" + size + ", price=" + price + ", brand=" + brand + ", material=" + material;
+        return "Clothes{name='" + name + "', color='" + color + "', size='" + size + "', price=" + price + "', brand='" + brand + "', material='" + material + "'}";
     }
 
     /**
@@ -116,6 +124,7 @@ public class Clothes {
 
     /**
      * Copy constructor.
+     *
      * @param other object to copy
      */
     public Clothes(Clothes other) {
@@ -125,5 +134,7 @@ public class Clothes {
         this.price = other.price;
         this.brand = other.brand;
         this.material = other.material;
+
+        objectCount++;
     }
 }
