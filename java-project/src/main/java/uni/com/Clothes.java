@@ -2,7 +2,6 @@ package uni.com;
 
 /**
  * Represents a clothing item with characteristics: name, color, size, price, brand and material.
- *
  * The class provides validation of input data in constructors and setters. Invalid values cause IllegalArgumentException}.
  */
 public class Clothes {
@@ -14,7 +13,7 @@ public class Clothes {
     private String material;
 
     /**
-     * Creates a new {@code Clothes} object.
+     * Creates a new Clothes object.
      *
      * @param name name of clothes (cannot be empty)
      * @param color color (cannot be empty)
@@ -97,7 +96,7 @@ public class Clothes {
      */
     @Override
     public String toString() {
-        return "Clothes{name='" + name + "', color='" + color + "', size='" + size + "', price=" + price + "', brand='" + brand + "', material='" + material + "'}";
+        return "name=" + name + ", color=" + color + ", size=" + size + ", price=" + price + ", brand=" + brand + ", material=" + material;
     }
 
     /**
