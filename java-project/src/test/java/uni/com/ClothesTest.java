@@ -1,9 +1,11 @@
 package uni.com;
 
-import uni.com.Clothes;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for Clothes class validation.
+ */
 public class ClothesTest {
     @Test
     void shouldThrowExceptionWhenInvalidValueInSetter() {
