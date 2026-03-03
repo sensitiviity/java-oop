@@ -13,6 +13,6 @@ public class Shirts extends Clothes {
 
     @Override
     public String toString() {
-        return "Shirts -> " + super.toString() + ", longSleeve=" + longSleeve;
+        return "Shirts: " + super.toString() + ", longSleeve=" + longSleeve;
     }
 }
