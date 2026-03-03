@@ -2,18 +2,20 @@ package uni.com;
 
 /**
  * Represents a clothing item with characteristics: name, color, size, price, brand and material.
- * The class provides validation of input data in constructors and setters. Invalid values cause IllegalArgumentException}.
+ * The class provides validation of input data in constructors and setters. Invalid values cause IllegalArgumentException.
  */
 public class Clothes {
+    private static int objectCount = 0;
+
     private String name;
     private String color;
-    private String size;
+    private Size size;
     private double price;
     private String brand;
     private String material;
 
     /**
-     * Creates a new Clothes object.
+     * Creates a new {@code Clothes} object.
      *
      * @param name name of clothes (cannot be empty)
      * @param color color (cannot be empty)
@@ -24,13 +26,15 @@ public class Clothes {
      *
      * @throws IllegalArgumentException if any parameter is invalid
      */
-    public Clothes(String name, String color, String size, double price, String brand, String material) {
+    public Clothes(String name, String color, Size size, double price, String brand, String material) {
         setName(name);
         setColor(color);
         setSize(size);
         setPrice(price);
         setBrand(brand);
         setMaterial(material);
+
+        objectCount++;
     }
 
     //гетери
@@ -42,7 +46,7 @@ public class Clothes {
         return color;
     }
 
-    public String getSize() {
+    public Size getSize() {
         return size;
     }
 
@@ -58,6 +62,10 @@ public class Clothes {
         return material;
     }
 
+    public static int getObjectCount() {
+        return objectCount;
+    }
+
     //сетери
     public void setName(String name) {
         if(name == null || name.isEmpty()) throw new IllegalArgumentException("Name cannot be empty");
@@ -69,8 +77,8 @@ public class Clothes {
         this.color = color;
     }
 
-    public void setSize(String size) {
-        if(size == null || size.isEmpty()) throw new IllegalArgumentException("Size cannot be empty");
+    public void setSize(Size size) {
+        if(size == null) throw new IllegalArgumentException("Size cannot be empty");
         this.size = size;
     }
 
@@ -112,5 +120,22 @@ public class Clothes {
 
         Clothes c = (Clothes)obj;
         return name.equals(c.name) && color.equals(c.color) && size.equals(c.size) && price == c.price && brand.equals(c.brand) && material.equals(c.material);
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param other object to copy
+     */
+    public Clothes(Clothes other) {
+        if (other == null) throw new IllegalArgumentException("Object to copy cannot be null");
+        this.name = other.name;
+        this.color = other.color;
+        this.size = other.size;
+        this.price = other.price;
+        this.brand = other.brand;
+        this.material = other.material;
+
+        objectCount++;
     }
 }
