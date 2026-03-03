@@ -9,7 +9,7 @@ public class Clothes {
 
     private String name;
     private String color;
-    private String size;
+    private Size size;
     private double price;
     private String brand;
     private String material;
@@ -26,7 +26,7 @@ public class Clothes {
      *
      * @throws IllegalArgumentException if any parameter is invalid
      */
-    public Clothes(String name, String color, String size, double price, String brand, String material) {
+    public Clothes(String name, String color, Size size, double price, String brand, String material) {
         setName(name);
         setColor(color);
         setSize(size);
@@ -46,7 +46,7 @@ public class Clothes {
         return color;
     }
 
-    public String getSize() {
+    public Size getSize() {
         return size;
     }
 
@@ -77,8 +77,8 @@ public class Clothes {
         this.color = color;
     }
 
-    public void setSize(String size) {
-        if(size == null || size.isEmpty()) throw new IllegalArgumentException("Size cannot be empty");
+    public void setSize(Size size) {
+        if(size == null) throw new IllegalArgumentException("Size cannot be empty");
         this.size = size;
     }
 
@@ -104,7 +104,7 @@ public class Clothes {
      */
     @Override
     public String toString() {
-        return "Clothes{name='" + name + "', color='" + color + "', size='" + size + "', price=" + price + "', brand='" + brand + "', material='" + material + "'}";
+        return "name=" + name + ", color=" + color + ", size=" + size + ", price=" + price + ", brand=" + brand + ", material=" + material;
     }
 
     /**

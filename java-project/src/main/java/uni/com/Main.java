@@ -23,8 +23,14 @@ public class Main {
                             String name = sc.nextLine();
                             System.out.println("Enter color: ");
                             String color = sc.nextLine();
-                            System.out.println("Enter size: ");
-                            String size = sc.nextLine();
+                            System.out.println("Enter size (XXS, XS, S, M, L, XL, XXL): ");
+                            Size size;
+                            try{
+                                size = Size.valueOf(sc.nextLine().toUpperCase());
+                            }catch(IllegalArgumentException e){
+                                System.out.println("Invalid size");
+                                continue;
+                            }
                             System.out.println("Enter price: ");
                             double price = Double.parseDouble(sc.nextLine());;
                             System.out.println("Enter brand: ");
