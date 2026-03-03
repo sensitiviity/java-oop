@@ -17,6 +17,23 @@ public class Wardrobe {
     }
 
     /**
+     * Adds new Clothes object (manual array copy).
+     */
+    public void addClothes(Clothes newClothes) {
+
+        Clothes[] newArray = new Clothes[clothes.length + 1];
+
+        for (int i = 0; i < clothes.length; i++) {
+            newArray[i] = clothes[i];
+        }
+
+        newArray[newArray.length - 1] = newClothes;
+
+        clothes = newArray;
+    }
+
+
+    /**
      * Displays all clothes stored in wardrobe.
      */
     public void display() {
