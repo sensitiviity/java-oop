@@ -1,12 +1,10 @@
 package uni.com;
 
-import uni.com.Clothes;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for {@link Clothes} class.
- *
+ * Unit tests for Clothes class.
  * Tests validation logic of constructor and setters.
  */
 public class ClothesTest {
