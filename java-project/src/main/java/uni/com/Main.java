@@ -111,12 +111,7 @@ public class Main {
                 String material = sc.nextLine();
 
                 System.out.println("Has pockets (true/false):");
-                String input = sc.nextLine().toLowerCase();
-                if (!input.equals("true") && !input.equals("false")) {
-                    System.out.println("Enter true or false");
-                    continue;
-                }
-                boolean hasPockets = Boolean.parseBoolean(input);
+                boolean hasPockets = readBoolean(sc);
 
                 return new Pants(name, color, size, price, brand, material, hasPockets);
             }catch (NumberFormatException   e) {
@@ -162,12 +157,7 @@ public class Main {
                 String material = sc.nextLine();
 
                 System.out.println("Has long sleeves (true/false):");
-                String input = sc.nextLine().toLowerCase();
-                if (!input.equals("true") && !input.equals("false")) {
-                    System.out.println("Enter true or false");
-                    continue;
-                }
-                boolean longSleeve = Boolean.parseBoolean(sc.nextLine());
+                boolean longSleeve = readBoolean(sc);
 
                 return new Shirts(name, color, size, price, brand, material, longSleeve);
             }catch (NumberFormatException   e) {
@@ -201,10 +191,10 @@ public class Main {
                 String material = sc.nextLine();
 
                 System.out.println("Has long sleeves (true/false):");
-                boolean longSleeve = Boolean.parseBoolean(sc.nextLine());
+                boolean longSleeve = readBoolean(sc);
 
                 System.out.println("Has print (true/false):");
-                boolean hasPrint = Boolean.parseBoolean(sc.nextLine());
+                boolean hasPrint = readBoolean(sc);
 
                 return new TShirts(name, color, size, price, brand, material, longSleeve, hasPrint);
 
@@ -236,16 +226,26 @@ public class Main {
                 String material = sc.nextLine();
 
                 System.out.println("Has pockets (true/false):");
-                boolean hasPockets = Boolean.parseBoolean(sc.nextLine());
+                boolean hasPockets = readBoolean(sc);
 
                 System.out.println("Ripped (true/false):");
-                boolean ripped = Boolean.parseBoolean(sc.nextLine());
+                boolean ripped = readBoolean(sc);
 
                 return new Jeans(name, color, size, price, brand, material, hasPockets, ripped);
 
             } catch (Exception e) {
                 System.out.println("Invalid input.");
             }
+        }
+    }
+
+    private static boolean readBoolean(Scanner sc) {
+        while (true) {
+            String input = sc.nextLine().toLowerCase();
+            if (input.equals("true") || input.equals("false")) {
+                return Boolean.parseBoolean(input);
+            }
+            System.out.println("Enter true or false:");
         }
     }
 }
