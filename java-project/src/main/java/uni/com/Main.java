@@ -40,6 +40,7 @@ public class Main {
                     }
                     break;
                 case "3":
+                    saveToFile(clothesList);
                     sc.close();
                     return;
                 default:
@@ -103,6 +104,34 @@ public class Main {
                 return new TShirts(name, color, size, price, brand, material, sleeveT, print);
         }
         return null;
+    }
+
+    private static void saveToFile(ArrayList<Clothes> clothesList) {
+        try(PrintWriter writer = new PrintWriter(new FileWriter(inputFile))){
+            for (Clothes c : clothesList) {
+                writer.println(objectsToString(c));
+            }
+            System.out.println("Objects saved to " + inputFile);
+        }catch(IOException e){
+            System.out.println("Error writing file.");
+        }
+    }
+
+    private static String objectsToString(Clothes c) {
+        if (c instanceof Pants) {
+            Pants p = (Pants) c;
+            return "Pants;" + p.getName() + ";" + p.getColor() + ";" + p.getSize() + ";" + p.getPrice() + ";" + p.getBrand() + ";" + p.getMaterial() + ";" + p.getHasPockets();
+        } else if (c instanceof Jeans) {
+            Jeans j = (Jeans) c;
+            return "Jeans;"  + j.getName() + ";" + j.getColor() + ";" + j.getSize() + ";" + j.getPrice() + ";" + j.getBrand() + ";" + j.getMaterial() + ";" + j.getHasPockets() + ";" + j.isRipped();
+        } else if (c instanceof Shirts) {
+            Shirts s = (Shirts) c;
+            return "Shirts;" + s.getName() + ";" + s.getColor() + ";" + s.getSize() + ";" + s.getPrice() + ";" + s.getBrand() + ";" + s.getMaterial() + ";" + s.getLongSleeve();
+        } else if (c instanceof TShirts) {
+            TShirts ts = (TShirts) c;
+            return "TShirts;" + ts.getName() + ";" + ts.getColor() + ";" + ts.getSize() + ";" + ts.getPrice() + ";" + ts.getBrand() + ";" + ts.getMaterial() + ";" + ts.getLongSleeve() + ";" + ts.getHasPrints();
+        }
+        return "";
     }
 
     private static void createObjectMenu(Scanner sc, ArrayList<Clothes> clothesList) {
