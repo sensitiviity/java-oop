@@ -15,7 +15,7 @@ public class Main {
      *
      * @param args command-line arguments (not used)
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         ArrayList<Clothes> clothesList = new ArrayList<>();
         loadFromFile(clothesList);
@@ -49,6 +49,12 @@ public class Main {
         }
     }
 
+    /**
+     * Loads objects from the input file into the collection.
+     * Each line of the file is parsed and converted into a corresponding object.
+     *
+     * @param clothesList collection where created objects will be stored
+     */
     public static void loadFromFile(ArrayList<Clothes> clothesList) {
         File file = new File(inputFile);
         System.out.println(file.getAbsolutePath());
@@ -76,6 +82,14 @@ public class Main {
         }
     }
 
+    /**
+     * Parses a line from the input file and creates the corresponding object.
+     * Expected format:
+     * type;name;color;size;price;brand;material;[specific attributes]
+     *
+     * @param line one line from the input file
+     * @return created Clothes object or null if type is unknown
+     */
     private static Clothes parseLine(String line) {
         String[] parts = line.split(";");
 
@@ -106,6 +120,11 @@ public class Main {
         return null;
     }
 
+    /**
+     * Saves all objects from the collection to the input file.
+     *
+     * @param clothesList collection of clothes objects
+     */
     private static void saveToFile(ArrayList<Clothes> clothesList) {
         try(PrintWriter writer = new PrintWriter(new FileWriter(inputFile))){
             for (Clothes c : clothesList) {
@@ -117,6 +136,13 @@ public class Main {
         }
     }
 
+    /**
+     * Converts an object into a string representation for file storage.
+     * The format depends on the specific object type.
+     *
+     * @param c clothes object
+     * @return formatted string for writing into the file
+     */
     private static String objectsToString(Clothes c) {
         if (c instanceof Jeans) {
             Jeans j = (Jeans) c;
@@ -134,6 +160,13 @@ public class Main {
         return "";
     }
 
+    /**
+     * Displays a menu for creating different types of objects.
+     * The created object is added to the collection.
+     *
+     * @param sc scanner used for user input
+     * @param clothesList collection where objects are stored
+     */
     private static void createObjectMenu(Scanner sc, ArrayList<Clothes> clothesList) {
         while (true) {
             System.out.println("\nChoose object type:");
@@ -258,6 +291,12 @@ public class Main {
         }
     }
 
+    /**
+     * Creates a TShirts object using console input.
+     *
+     * @param sc Scanner object for reading user input
+     * @return a valid TShirts object
+     */
     private static TShirts createTShirt(Scanner sc) {
         while (true) {
             try {
@@ -293,6 +332,12 @@ public class Main {
         }
     }
 
+    /**
+     * Creates a Jeans object using console input.
+     *
+     * @param sc Scanner object for reading user input
+     * @return a valid Jeans object
+     */
     private static Jeans createJeans(Scanner sc) {
         while (true) {
             try {
@@ -328,6 +373,12 @@ public class Main {
         }
     }
 
+    /**
+     * Reads a boolean value from the console.
+     *
+     * @param sc scanner used for input
+     * @return boolean value entered by the user
+     */
     private static boolean readBoolean(Scanner sc) {
         while (true) {
             String input = sc.nextLine().toLowerCase();

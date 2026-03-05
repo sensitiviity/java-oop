@@ -23,6 +23,11 @@ public class Shirts extends Clothes {
         this.longSleeve = longSleeve;
     }
 
+    /**
+     * Getter that returns information about sleeves presence.
+     *
+     * @return true if sleeves are long
+     */
     public boolean getLongSleeve() {
         return longSleeve;
     }

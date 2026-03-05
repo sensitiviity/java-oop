@@ -23,6 +23,11 @@ public class Pants extends Clothes {
         this.hasPockets = hasPockets;
     }
 
+    /**
+     * Getter that returns information about pockets.
+     *
+     * @return true if pants have pockets
+     */
     public boolean getHasPockets() {
         return hasPockets;
     }
