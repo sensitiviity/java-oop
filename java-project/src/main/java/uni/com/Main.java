@@ -49,7 +49,7 @@ public class Main {
         }
     }
 
-    public static void loadFromFile(ArrayList<Clothes> clothesList) throws FileNotFoundException {
+    public static void loadFromFile(ArrayList<Clothes> clothesList) {
         File file = new File(inputFile);
         System.out.println(file.getAbsolutePath());
         if (!file.exists()) {
@@ -118,18 +118,18 @@ public class Main {
     }
 
     private static String objectsToString(Clothes c) {
-        if (c instanceof Pants) {
+        if (c instanceof Jeans) {
+            Jeans j = (Jeans) c;
+            return "Jeans;" + j.getName() + ";" + j.getColor() + ";" + j.getSize() + ";" + j.getPrice() + ";" + j.getBrand() + ";" + j.getMaterial() + ";" + j.getHasPockets() + ";" + j.isRipped();
+        } else if (c instanceof Pants) {
             Pants p = (Pants) c;
             return "Pants;" + p.getName() + ";" + p.getColor() + ";" + p.getSize() + ";" + p.getPrice() + ";" + p.getBrand() + ";" + p.getMaterial() + ";" + p.getHasPockets();
-        } else if (c instanceof Jeans) {
-            Jeans j = (Jeans) c;
-            return "Jeans;"  + j.getName() + ";" + j.getColor() + ";" + j.getSize() + ";" + j.getPrice() + ";" + j.getBrand() + ";" + j.getMaterial() + ";" + j.getHasPockets() + ";" + j.isRipped();
-        } else if (c instanceof Shirts) {
-            Shirts s = (Shirts) c;
-            return "Shirts;" + s.getName() + ";" + s.getColor() + ";" + s.getSize() + ";" + s.getPrice() + ";" + s.getBrand() + ";" + s.getMaterial() + ";" + s.getLongSleeve();
         } else if (c instanceof TShirts) {
             TShirts ts = (TShirts) c;
             return "TShirts;" + ts.getName() + ";" + ts.getColor() + ";" + ts.getSize() + ";" + ts.getPrice() + ";" + ts.getBrand() + ";" + ts.getMaterial() + ";" + ts.getLongSleeve() + ";" + ts.getHasPrints();
+        } else if (c instanceof Shirts) {
+            Shirts s = (Shirts) c;
+            return "Shirts;" + s.getName() + ";" + s.getColor() + ";" + s.getSize() + ";" + s.getPrice() + ";" + s.getBrand() + ";" + s.getMaterial() + ";" + s.getLongSleeve();
         }
         return "";
     }
