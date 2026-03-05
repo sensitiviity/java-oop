@@ -23,6 +23,10 @@ public class Pants extends Clothes {
         this.hasPockets = hasPockets;
     }
 
+    public boolean getHasPockets() {
+        return hasPockets;
+    }
+
     /**
      * Returns a string representation of Pants.
      * Demonstrates polymorphism

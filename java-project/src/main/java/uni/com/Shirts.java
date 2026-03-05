@@ -23,6 +23,10 @@ public class Shirts extends Clothes {
         this.longSleeve = longSleeve;
     }
 
+    public boolean getLongSleeve() {
+        return longSleeve;
+    }
+
     /**
      * Returns a string representation of Shirts.
      * Demonstrates polymorphism
