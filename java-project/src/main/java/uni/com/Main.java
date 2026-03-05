@@ -177,6 +177,75 @@ public class Main {
                 System.out.println(e.getMessage());
             }
         }
+    }
 
+    private static TShirts createTShirt(Scanner sc) {
+        while (true) {
+            try {
+                System.out.println("Enter name:");
+                String name = sc.nextLine();
+
+                System.out.println("Enter color:");
+                String color = sc.nextLine();
+
+                System.out.println("Enter size:");
+                Size size = Size.valueOf(sc.nextLine().toUpperCase());
+
+                System.out.println("Enter price:");
+                double price = Double.parseDouble(sc.nextLine());
+
+                System.out.println("Enter brand:");
+                String brand = sc.nextLine();
+
+                System.out.println("Enter material:");
+                String material = sc.nextLine();
+
+                System.out.println("Has long sleeves (true/false):");
+                boolean longSleeve = Boolean.parseBoolean(sc.nextLine());
+
+                System.out.println("Has print (true/false):");
+                boolean hasPrint = Boolean.parseBoolean(sc.nextLine());
+
+                return new TShirts(name, color, size, price, brand, material, longSleeve, hasPrint);
+
+            } catch (Exception e) {
+                System.out.println("Invalid input.");
+            }
+        }
+    }
+
+    private static Jeans createJeans(Scanner sc) {
+        while (true) {
+            try {
+                System.out.println("Enter name:");
+                String name = sc.nextLine();
+
+                System.out.println("Enter color:");
+                String color = sc.nextLine();
+
+                System.out.println("Enter size:");
+                Size size = Size.valueOf(sc.nextLine().toUpperCase());
+
+                System.out.println("Enter price:");
+                double price = Double.parseDouble(sc.nextLine());
+
+                System.out.println("Enter brand:");
+                String brand = sc.nextLine();
+
+                System.out.println("Enter material:");
+                String material = sc.nextLine();
+
+                System.out.println("Has pockets (true/false):");
+                boolean hasPockets = Boolean.parseBoolean(sc.nextLine());
+
+                System.out.println("Ripped (true/false):");
+                boolean ripped = Boolean.parseBoolean(sc.nextLine());
+
+                return new Jeans(name, color, size, price, brand, material, hasPockets, ripped);
+
+            } catch (Exception e) {
+                System.out.println("Invalid input.");
+            }
+        }
     }
 }
