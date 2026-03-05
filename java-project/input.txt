@@ -1,0 +1,1 @@
+Jeans;Slim Jeans;Blue;M;99.9;Levis;denim;true;false
