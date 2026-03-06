@@ -5,12 +5,12 @@ package uni.com;
  * The class provides validation of input data in constructors and setters. Invalid values cause IllegalArgumentException.
  */
 public class Clothes {
-    private String name;
-    private String color;
-    private Size size;
-    private double price;
-    private String brand;
-    private String material;
+    String name;
+    String color;
+    Size size;
+    double price;
+    String brand;
+    String material;
 
     /**
      * Creates a new {@code Clothes} object.
