@@ -32,15 +32,7 @@ public class Main {
                     createObjectMenu(sc, clothesList);
                     break;
                 case "3":
-                    if (clothesList.isEmpty()) {
-                        System.out.println("No objects created.");
-                        break;
-                    }
-
-                    System.out.println("\n=== All objects ===");
-                    for (Clothes c : clothesList) {
-                        System.out.println(c);
-                    }
+                    showAll(clothesList);
                     break;
                 case "4":
                     saveToFile(clothesList);
@@ -80,6 +72,18 @@ public class Main {
                 return;
             default:
                 System.out.println("Invalid option.");
+        }
+    }
+
+    private static void showAll(ArrayList<Clothes> list){
+        if (list.isEmpty()) {
+            System.out.println("No objects created.");
+            return;
+        }
+
+        System.out.println("\n=== All objects ===");
+        for (Clothes c : list) {
+            System.out.println(c);
         }
     }
 
