@@ -44,36 +44,113 @@ public class Main {
         }
     }
 
+    //search
+
     public static void searchMenu(ArrayList<Clothes> clothesList) {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("\nSearch by: ");
         System.out.println("1 - Size");
         System.out.println("2 - Max price");
-        System.out.println("3 - Brand");
-        System.out.println("4 - Back");
+        System.out.println("3 - Min price");
+        System.out.println("0 - Back");
 
         int choice = sc.nextInt();
         sc.nextLine();
         switch (choice) {
             case 1:
-                System.out.println("Enter size: ");
-                Size size = Size.valueOf(sc.nextLine().toUpperCase());
+                searchBySize(sc, clothesList);
                 break;
             case 2:
-                System.out.println("Enter max price: ");
-                double maxPrice = sc.nextDouble();
+                searchByMaxPrice(sc, clothesList);
                 break;
             case 3:
-                System.out.println("Enter min price");
-                double minPrise = sc.nextDouble();
+                searchByMinPrice(sc, clothesList);
                 break;
-            case 4:
+            case 0:
                 return;
             default:
                 System.out.println("Invalid option.");
         }
     }
+
+    private static void searchBySize(Scanner sc, ArrayList<Clothes> list){
+        Size size;
+        while (true){
+            System.out.println("Enter size (XXS XS S M L XL XXL): ");
+            try{
+                size = Size.valueOf(sc.nextLine().toUpperCase());
+                break;
+            }catch (Exception e){
+                System.out.println("Invalid size.");
+            }
+        }
+
+        boolean found = false;
+        for (Clothes c : list) {
+            if (c.getSize() == size) {
+                System.out.println(c);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No objects found.");
+        }
+    }
+
+    private static void searchByMaxPrice(Scanner sc, ArrayList<Clothes> list) {
+        double maxPrice;
+        while (true) {
+            System.out.println("Enter max price:");
+            try {
+                maxPrice = Double.parseDouble(sc.nextLine());
+                break;
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Invalid number.");
+            }
+
+        }
+
+        boolean found = false;
+        for (Clothes c : list) {
+            if (c.getPrice() <= maxPrice) {
+                System.out.println(c);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No objects found.");
+        }
+    }
+
+    private static void searchByMinPrice(Scanner sc, ArrayList<Clothes> list) {
+        double minPrice;
+        while (true) {
+            System.out.println("Enter min price:");
+            try {
+                minPrice = Double.parseDouble(sc.nextLine());
+                break;
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Invalid number.");
+            }
+
+        }
+
+        boolean found = false;
+        for (Clothes c : list) {
+            if (c.getPrice() >= minPrice) {
+                System.out.println(c);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No objects found.");
+        }
+    }
+
+    //show
 
     private static void showAll(ArrayList<Clothes> list){
         if (list.isEmpty()) {
@@ -86,6 +163,8 @@ public class Main {
             System.out.println(c);
         }
     }
+
+    //files
 
     /**
      * Loads objects from the input file into the collection.
@@ -197,6 +276,8 @@ public class Main {
         }
         return "";
     }
+
+    //create (in console)
 
     /**
      * Displays a menu for creating different types of objects.
@@ -410,6 +491,8 @@ public class Main {
             }
         }
     }
+
+    //additional
 
     /**
      * Reads a boolean value from the console.
