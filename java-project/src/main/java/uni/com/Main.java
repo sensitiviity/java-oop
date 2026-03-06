@@ -21,14 +21,17 @@ public class Main {
         loadFromFile(clothesList);
 
         while (true) {
-            System.out.println("\n1 - Create new object\n2 - Show all\n3 - Exit");
+            System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Exit");
             String choice = sc.nextLine();
 
             switch (choice) {
                 case "1":
-                    createObjectMenu(sc, clothesList);
+                    searchMenu(clothesList);
                     break;
                 case "2":
+                    createObjectMenu(sc, clothesList);
+                    break;
+                case "3":
                     if (clothesList.isEmpty()) {
                         System.out.println("No objects created.");
                         break;
@@ -39,13 +42,44 @@ public class Main {
                         System.out.println(c);
                     }
                     break;
-                case "3":
+                case "4":
                     saveToFile(clothesList);
                     sc.close();
                     return;
                 default:
                     System.out.println("Invalid option.");
             }
+        }
+    }
+
+    public static void searchMenu(ArrayList<Clothes> clothesList) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("\nSearch by: ");
+        System.out.println("1 - Size");
+        System.out.println("2 - Max price");
+        System.out.println("3 - Brand");
+        System.out.println("4 - Back");
+
+        int choice = sc.nextInt();
+        sc.nextLine();
+        switch (choice) {
+            case 1:
+                System.out.println("Enter size: ");
+                Size size = Size.valueOf(sc.nextLine().toUpperCase());
+                break;
+            case 2:
+                System.out.println("Enter max price: ");
+                double maxPrice = sc.nextDouble();
+                break;
+            case 3:
+                System.out.println("Enter min price");
+                double minPrise = sc.nextDouble();
+                break;
+            case 4:
+                return;
+            default:
+                System.out.println("Invalid option.");
         }
     }
 
