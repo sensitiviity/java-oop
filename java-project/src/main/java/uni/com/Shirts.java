@@ -24,6 +24,15 @@ public class Shirts extends Clothes {
     }
 
     /**
+     * Getter that returns information about sleeves presence.
+     *
+     * @return true if sleeves are long
+     */
+    public boolean getLongSleeve() {
+        return longSleeve;
+    }
+
+    /**
      * Returns a string representation of Shirts.
      * Demonstrates polymorphism
      *

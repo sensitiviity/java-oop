@@ -24,6 +24,15 @@ public class Pants extends Clothes {
     }
 
     /**
+     * Getter that returns information about pockets.
+     *
+     * @return true if pants have pockets
+     */
+    public boolean getHasPockets() {
+        return hasPockets;
+    }
+
+    /**
      * Returns a string representation of Pants.
      * Demonstrates polymorphism
      *
