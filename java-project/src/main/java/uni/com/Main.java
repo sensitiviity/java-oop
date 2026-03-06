@@ -46,6 +46,12 @@ public class Main {
 
     //search
 
+    /**
+     * Displays the search submenu and allows the user
+     * to choose a search criterion.
+     *
+     * @param clothesList collection where objects are stored
+     */
     public static void searchMenu(ArrayList<Clothes> clothesList) {
         System.out.println("\nSearch by: ");
         System.out.println("1 - Size");
@@ -71,6 +77,12 @@ public class Main {
         }
     }
 
+    /**
+     * Prints all objects found during the search.
+     * If no objects match the criteria, a message is shown.
+     *
+     * @param result list containing search results
+     */
     private static void printSearchResults(ArrayList<Clothes> result) {
         if (result.isEmpty()) {
             System.out.println("No objects found.");
@@ -82,6 +94,11 @@ public class Main {
         }
     }
 
+    /**
+     * Searches objects in the collection by size.
+     *
+     * @param list collection of clothes objects
+     */
     private static void searchBySize(ArrayList<Clothes> list){
         Size size = readSize();
 
@@ -94,6 +111,12 @@ public class Main {
         printSearchResults(result);
     }
 
+    /**
+     * Searches objects whose price is less than or equal
+     * to the specified maximum price.
+     *
+     * @param list collection of clothes objects
+     */
     private static void searchByMaxPrice(ArrayList<Clothes> list) {
         double maxPrice = readDouble("Enter max price:");
 
@@ -106,6 +129,12 @@ public class Main {
         printSearchResults(result);
     }
 
+    /**
+     * Searches objects whose price is greater than or equal
+     * to the specified minimum price.
+     *
+     * @param list collection of clothes objects
+     */
     private static void searchByMinPrice(ArrayList<Clothes> list) {
         double minPrice = readDouble("Enter min price:");
 
@@ -120,6 +149,11 @@ public class Main {
 
     //show
 
+    /**
+     * Displays all objects stored in the collection.
+     *
+     * @param list collection of clothes objects
+     */
     private static void showAll(ArrayList<Clothes> list){
         if (list.isEmpty()) {
             System.out.println("No objects created.");
@@ -355,6 +389,13 @@ public class Main {
         }
     }
 
+    /**
+     * Reads a double value from the console.
+     * Repeats input until a valid number is entered.
+     *
+     * @param message prompt message for the user
+     * @return valid double value
+     */
     private static double readDouble(String message) {
         while (true) {
             System.out.println(message);
@@ -367,6 +408,12 @@ public class Main {
         }
     }
 
+    /**
+     * Reads a valid Size enum value from the console.
+     * Repeats input until a correct size is entered.
+     *
+     * @return selected size value
+     */
     private static Size readSize() {
         while (true) {
             System.out.println("Enter size (XXS XS S M L XL XXL):");
@@ -379,11 +426,23 @@ public class Main {
         }
     }
 
+    /**
+     * Reads a string value from the console.
+     *
+     * @param message prompt message
+     * @return entered string
+     */
     private static String readString(String message) {
         System.out.println(message);
         return sc.nextLine();
     }
 
+    /**
+     * Reads basic Clothes data from the console.
+     * Used when creating any type of clothes object.
+     *
+     * @return Clothes object containing base attributes
+     */
     private static Clothes readData() {
         String name = readString("Enter name:");
         String color = readString("Enter color:");
