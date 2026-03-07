@@ -36,4 +36,36 @@ public class Store {
             quantities.add(quantity);
         }
     }
+
+    //search
+
+    public ArrayList<Clothes> searchBySize(Size size) {
+        ArrayList<Clothes> result = new ArrayList<>();
+        for (Clothes c : clothesList) {
+            if (c.getSize() == size) {
+                result.add(c);
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Clothes> searchByMaxPrice(double maxPrice) {
+        ArrayList<Clothes> result = new ArrayList<>();
+        for (Clothes c : clothesList) {
+            if (c.getPrice() <= maxPrice) {
+                result.add(c);
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Clothes> searchByMinPrice(double minPrice) {
+        ArrayList<Clothes> result = new ArrayList<>();
+        for (Clothes c : clothesList) {
+            if (c.getPrice() >= minPrice) {
+                result.add(c);
+            }
+        }
+        return result;
+    }
 }
