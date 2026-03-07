@@ -12,7 +12,7 @@ public class Main {
     private static final String inputFile = "./java-project/./input.txt";
     private static final Scanner sc = new Scanner(System.in);
     /**
-     * Starts the console application.
+     * Starts the console application. Loads data from file and runs main menu loop.
      *
      * @param args command-line arguments (not used)
      */
@@ -47,10 +47,9 @@ public class Main {
     //search
 
     /**
-     * Displays the search submenu and allows the user
-     * to choose a search criterion.
+     * Displays search submenu. Supports search by size, max price, min price.
      *
-     * @param store collection where objects are stored
+     * @param store Store instance containing clothes collection
      */
     public static void searchMenu(Store store) {
         System.out.println("\nSearch by: ");
@@ -85,10 +84,9 @@ public class Main {
     }
 
     /**
-     * Prints all objects found during the search.
-     * If no objects match the criteria, a message is shown.
+     * Prints search results or "No objects found" message.
      *
-     * @param result list containing search results
+     * @param result List of matching Clothes objects
      */
     private static void printSearchResults(ArrayList<Clothes> result) {
         if (result.isEmpty()) {
@@ -140,12 +138,12 @@ public class Main {
     }
 
     /**
-     * Parses a line from the input file and creates the corresponding object.
-     * Expected format:
-     * type;name;color;size;price;brand;material;[specific attributes]
+     * Parses single line from input.txt into Clothes subclass instance.
+     * Format: type;name;color;size;price;brand;material;[type-specific];quantity (quantity ignored here).
+     * Validates field count per type, trims strings.
      *
-     * @param line one line from the input file
-     * @return created Clothes object or null if type is unknown
+     * @param line Raw line from file
+     * @return Parsed Clothes or null on parse failure
      */
     private static Clothes parseLine(String line) {
         if (line == null || line.trim().isEmpty()) return null;
@@ -188,6 +186,13 @@ public class Main {
         return null;
     }
 
+    /**
+     * Extracts quantity from last field of line.
+     *
+     * @param line Full line from file
+     * @return Parsed integer quantity (>0 expected)
+     * @throws IllegalArgumentException on parse failure
+     */
     private static int parseQuantity(String line) {
         String[] parts = line.split(";");
         try {
@@ -198,9 +203,9 @@ public class Main {
     }
 
     /**
-     * Saves all objects from the collection to the input file.
+     * Saves all Store contents back to input.txt in parseable format.
      *
-     * @param store collection of clothes objects
+     * @param store Source Store with clothes and quantities
      */
     private static void saveToFile(Store store) {
         try(PrintWriter writer = new PrintWriter(new FileWriter(inputFile))){
@@ -216,11 +221,10 @@ public class Main {
     }
 
     /**
-     * Converts an object into a string representation for file storage.
-     * The format depends on the specific object type.
+     * Converts Clothes to semicolon-separated string for file storage (without quantity).
      *
-     * @param c clothes object
-     * @return formatted string for writing into the file
+     * @param c Clothes instance
+     * @return Type-prefixed string with all fields
      */
     private static String objectsToString(Clothes c) {
         if (c instanceof Jeans) {
@@ -242,10 +246,9 @@ public class Main {
     //create (in console)
 
     /**
-     * Displays a menu for creating different types of objects.
-     * The created object is added to the collection.
+     * Interactive menu for creating new clothes instances and adding to Store.
      *
-     * @param store collection where objects are stored
+     * @param store Target Store
      */
     private static void createObjectMenu(Store store) {
         while (true) {
@@ -397,6 +400,12 @@ public class Main {
         }
     }
 
+    /**
+     * Loops until valid positive integer.
+     *
+     * @param message prompt message for the user
+     * @return Positive int
+     */
     private static int readInt(String message) {
         while (true) {
             System.out.println(message);
