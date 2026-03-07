@@ -13,6 +13,10 @@ public class Store {
         return clothesList;
     }
 
+    public ArrayList<Integer> getQuantities() {
+        return quantities;
+    }
+
     //adding
 
     public void addNewClothes(Clothes cl, int quantity) {

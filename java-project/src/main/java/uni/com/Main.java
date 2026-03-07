@@ -18,7 +18,7 @@ public class Main {
      */
     public static void main(String[] args) {
         Store store = new Store();
-        //loadFromFile(store);
+        loadFromFile(store);
 
         while (true) {
             System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Exit");
@@ -32,10 +32,10 @@ public class Main {
                     createObjectMenu(store);
                     break;
                 case "3":
-                    //showAll(store);
+                    store.printAll();
                     break;
                 case "4":
-                    //saveToFile(store);
+                    saveToFile(store);
                     sc.close();
                     return;
                 default:
@@ -101,87 +101,15 @@ public class Main {
         }
     }
 
-    /**
-     * Searches objects in the collection by size.
-     *
-     * @param list collection of clothes objects
-     */
-    private static void searchBySize(ArrayList<Clothes> list){
-        Size size = readSize();
-
-        ArrayList<Clothes> result = new ArrayList<>();
-        for (Clothes c : list) {
-            if (c.getSize() == size) {
-                result.add(c);
-            }
-        }
-        printSearchResults(result);
-    }
-
-    /**
-     * Searches objects whose price is less than or equal
-     * to the specified maximum price.
-     *
-     * @param list collection of clothes objects
-     */
-    private static void searchByMaxPrice(ArrayList<Clothes> list) {
-        double maxPrice = readDouble("Enter max price:");
-
-        ArrayList<Clothes> result = new ArrayList<>();
-        for (Clothes c : list) {
-            if (c.getPrice() <= maxPrice) {
-                result.add(c);
-            }
-        }
-        printSearchResults(result);
-    }
-
-    /**
-     * Searches objects whose price is greater than or equal
-     * to the specified minimum price.
-     *
-     * @param list collection of clothes objects
-     */
-    private static void searchByMinPrice(ArrayList<Clothes> list) {
-        double minPrice = readDouble("Enter min price:");
-
-        ArrayList<Clothes> result = new ArrayList<>();
-        for (Clothes c : list) {
-            if (c.getPrice() >= minPrice) {
-                result.add(c);
-            }
-        }
-        printSearchResults(result);
-    }
-
-    //show
-
-    /**
-     * Displays all objects stored in the collection.
-     *
-     * @param list collection of clothes objects
-     */
-    private static void showAll(ArrayList<Clothes> list){
-        if (list.isEmpty()) {
-            System.out.println("No objects created.");
-            return;
-        }
-
-        System.out.println("\n=== All objects ===");
-        for (Clothes c : list) {
-            System.out.println(c);
-        }
-    }
-
     //files
 
     /**
      * Loads objects from the input file into the collection.
      * Each line of the file is parsed and converted into a corresponding object.
      *
-     * @param clothesList collection where created objects will be stored
+     * @param store collection where created objects will be stored
      */
-    public static void loadFromFile(ArrayList<Clothes> clothesList) {
+    public static void loadFromFile(Store store) {
         File file = new File(inputFile);
         System.out.println(file.getAbsolutePath());
         if (!file.exists()) {
@@ -191,17 +119,20 @@ public class Main {
 
         try(BufferedReader reader = new BufferedReader(new FileReader(file))){
             String line;
+            int count = 0;
             while((line = reader.readLine()) != null) {
                 try{
                     Clothes c = parseLine(line);
-                    if(c != null) {
-                        clothesList.add(c);
+                    if (c != null) {
+                        int quantity = parseQuantity(line);
+                        store.addNewClothes(c, quantity);
+                        count++;
                     }
                 }catch (Exception e){
                     System.out.println("Invalid line: " + line) ;
                 }
             }
-            String printAfterReading = (clothesList.size() == 1) ? ("In input file was found 1 object.") : ("In input file were found " + clothesList.size() + " objects.");
+            String printAfterReading = (count == 1) ? ("In input file was found 1 object.") : ("In input file were found " + count + " objects.");
             System.out.println(printAfterReading);
         } catch (IOException e) {
             System.out.println("Error reading file.");
@@ -217,44 +148,66 @@ public class Main {
      * @return created Clothes object or null if type is unknown
      */
     private static Clothes parseLine(String line) {
+        if (line == null || line.trim().isEmpty()) return null;
         String[] parts = line.split(";");
 
-        String type = parts[0].toLowerCase();
-        String name = parts[1];
-        String color = parts[2];
-        Size size = Size.valueOf(parts[3]);
-        double price = Double.parseDouble(parts[4]);
-        String brand = parts[5];
-        String material = parts[6];
+        try {
+            String type = parts[0].toLowerCase();
+            String name = parts[1];
+            String color = parts[2];
+            Size size = Size.valueOf(parts[3]);
+            double price = Double.parseDouble(parts[4]);
+            String brand = parts[5];
+            String material = parts[6];
 
-        switch (type) {
-            case "pants":
-                boolean pockets = Boolean.parseBoolean(parts[7]);
-                return new Pants(name, color, size, price, brand, material, pockets);
-            case "jeans":
-                boolean pocketsJ = Boolean.parseBoolean(parts[7]);
-                boolean ripped = Boolean.parseBoolean(parts[8]);
-                return new Jeans(name, color, size, price, brand, material, pocketsJ, ripped);
-            case "shirts":
-                boolean sleeve = Boolean.parseBoolean(parts[7]);
-                return new Shirts(name, color, size, price, brand, material, sleeve);
-            case "tshirts":
-                boolean sleeveT = Boolean.parseBoolean(parts[7]);
-                boolean print = Boolean.parseBoolean(parts[8]);
-                return new TShirts(name, color, size, price, brand, material, sleeveT, print);
+            switch (type) {
+                case "pants":
+                    if (parts.length < 8) throw new IllegalArgumentException("Pants needs 8 fields");
+                    boolean pockets = Boolean.parseBoolean(parts[7]);
+                    return new Pants(name, color, size, price, brand, material, pockets);
+                case "jeans":
+                    if (parts.length < 9) throw new IllegalArgumentException("Jeans needs 9 fields");
+                    boolean pocketsJ = Boolean.parseBoolean(parts[7]);
+                    boolean ripped = Boolean.parseBoolean(parts[8]);
+                    return new Jeans(name, color, size, price, brand, material, pocketsJ, ripped);
+                case "shirts":
+                    if (parts.length < 8) throw new IllegalArgumentException("Shirts needs 8 fields");
+                    boolean sleeve = Boolean.parseBoolean(parts[7]);
+                    return new Shirts(name, color, size, price, brand, material, sleeve);
+                case "tshirts":
+                    if (parts.length < 9) throw new IllegalArgumentException("TShirts needs 9 fields");
+                    boolean sleeveT = Boolean.parseBoolean(parts[7]);
+                    boolean print = Boolean.parseBoolean(parts[8]);
+                    return new TShirts(name, color, size, price, brand, material, sleeveT, print);
+                default:
+                    throw new IllegalArgumentException("Unknown type: " + type);
+            }
+        }catch(Exception e){
+            System.out.println("Error parsing line: " + line);
         }
         return null;
+    }
+
+    private static int parseQuantity(String line) {
+        String[] parts = line.split(";");
+        try {
+            return Integer.parseInt(parts[parts.length - 1].trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid quantity: " + parts[parts.length - 1]);
+        }
     }
 
     /**
      * Saves all objects from the collection to the input file.
      *
-     * @param clothesList collection of clothes objects
+     * @param store collection of clothes objects
      */
-    private static void saveToFile(ArrayList<Clothes> clothesList) {
+    private static void saveToFile(Store store) {
         try(PrintWriter writer = new PrintWriter(new FileWriter(inputFile))){
-            for (Clothes c : clothesList) {
-                writer.println(objectsToString(c));
+            for (int i = 0; i < store.getClothesList().size(); i++) {
+                Clothes c = store.getClothesList().get(i);
+                int qty = store.getQuantities().get(i);
+                writer.println(objectsToString(c) + ";" + qty);
             }
             System.out.println("Objects saved to " + inputFile);
         }catch(IOException e){
@@ -306,28 +259,32 @@ public class Main {
             String choice = sc.nextLine();
 
             Clothes created;
-            switch (choice) {
-                case "1":
-                    created = createPants();
-                    break;
-                case "2":
-                    created = createShirts();
-                    break;
-                case "3":
-                    created = createTShirt();
-                    break;
-                case "4":
-                    created = createJeans();
-                    break;
-                case "0":
-                    return;
-                default:
-                    System.out.println("Invalid option.");
-                    continue;
+            try {
+                switch (choice) {
+                    case "1":
+                        created = createPants();
+                        break;
+                    case "2":
+                        created = createShirts();
+                        break;
+                    case "3":
+                        created = createTShirt();
+                        break;
+                    case "4":
+                        created = createJeans();
+                        break;
+                    case "0":
+                        return;
+                    default:
+                        System.out.println("Invalid option.");
+                        continue;
+                }
+                int quantity = readInt("Enter quantity (integer > 0):");
+                store.addNewClothes(created, quantity);
+                System.out.println("Object added successfully!");
+            }catch(Exception e){
+                System.out.println("Error creating object.");
             }
-            int quantity = (int) readDouble("Enter quantity (integer > 0):");
-            store.addNewClothes(created, quantity);
-            return;
         }
     }
 
@@ -412,7 +369,9 @@ public class Main {
         while (true) {
             System.out.println(message);
             try {
-                return Double.parseDouble(sc.nextLine());
+                double value = Double.parseDouble(sc.nextLine().trim());
+                if (value > 0) return value;
+                System.out.println("This field must be > 0.");
             }
             catch (NumberFormatException e) {
                 System.out.println("Invalid number.");
@@ -434,6 +393,19 @@ public class Main {
             }
             catch (IllegalArgumentException e) {
                 System.out.println("Invalid size.");
+            }
+        }
+    }
+
+    private static int readInt(String message) {
+        while (true) {
+            System.out.println(message);
+            try {
+                int value = Integer.parseInt(sc.nextLine().trim());
+                if (value > 0) return value;
+                System.out.println("This field must be > 0.");
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid integer.");
             }
         }
     }

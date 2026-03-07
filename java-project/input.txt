@@ -1,2 +1,3 @@
-Pants;Slim Jeans;blue;M;99.9;Levis;denim;true
-TShirts;Summer Ts;white;L;20.0;Zara;cotton;false;true
+Pants;Slim Jeans;blue;M;99.9;Levis;denim;true;5
+TShirts;Summer Ts;white;L;20.0;Zara;cotton;false;true;1
+Pants;Trousers;black;M;40.0;Zara;cotton;false;3
