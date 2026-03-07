@@ -2,6 +2,10 @@ package uni.com;
 
 import java.util.ArrayList;
 
+/**
+ * Manages clothing inventory. Stores unique Clothes instances with quantities.
+ * Supports adding (merges duplicates), searching by criteria, printing all.
+ */
 public class Store {
     private ArrayList<Clothes> clothesList = new ArrayList<>();
     private ArrayList<Integer> quantities = new ArrayList<>();
@@ -9,16 +13,25 @@ public class Store {
     public Store() {
     }
 
+    /** @return Unmodifiable list of clothes */
     public ArrayList<Clothes> getClothesList() {
         return clothesList;
     }
 
+    /** @return List of quantities (parallel to clothesList) */
     public ArrayList<Integer> getQuantities() {
         return quantities;
     }
 
     //adding
 
+    /**
+     * Adds or updates clothes quantity. Uses equals() to detect duplicates.
+     *
+     * @param cl Clothes to add
+     * @param quantity Amount (>0)
+     * @throws IllegalArgumentException if invalid input
+     */
     public void addNewClothes(Clothes cl, int quantity) {
         if (cl == null || quantity <= 0) {
             throw new IllegalArgumentException("Clothes is null or quantity <= 0");
@@ -43,6 +56,12 @@ public class Store {
 
     //search
 
+    /**
+     * Searches clothes matching exact Size.
+     *
+     * @param size Target size
+     * @return Matching clothes (empty list if none)
+     */
     public ArrayList<Clothes> searchBySize(Size size) {
         ArrayList<Clothes> result = new ArrayList<>();
         for (Clothes c : clothesList) {
@@ -53,6 +72,12 @@ public class Store {
         return result;
     }
 
+    /**
+     * Searches clothes with price <= maxPrice.
+     *
+     * @param maxPrice Upper price limit
+     * @return Matching clothes
+     */
     public ArrayList<Clothes> searchByMaxPrice(double maxPrice) {
         ArrayList<Clothes> result = new ArrayList<>();
         for (Clothes c : clothesList) {
@@ -63,6 +88,12 @@ public class Store {
         return result;
     }
 
+    /**
+     * Searches clothes with price >= minPrice.
+     *
+     * @param minPrice Lower price limit
+     * @return Matching clothes
+     */
     public ArrayList<Clothes> searchByMinPrice(double minPrice) {
         ArrayList<Clothes> result = new ArrayList<>();
         for (Clothes c : clothesList) {
@@ -73,6 +104,9 @@ public class Store {
         return result;
     }
 
+    /**
+     * Prints all clothes with quantities or "No objects" message.
+     */
     public void printAll() {
         if (clothesList.isEmpty()) {
             System.out.println("No objects created.");
