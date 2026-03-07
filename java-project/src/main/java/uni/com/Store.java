@@ -68,4 +68,15 @@ public class Store {
         }
         return result;
     }
+
+    public void printAll() {
+        if (clothesList.isEmpty()) {
+            System.out.println("No objects created.");
+            return;
+        }
+        System.out.println("\n=== All objects in store ===");
+        for (int i = 0; i < clothesList.size(); i++) {
+            System.out.println(clothesList.get(i) + ", quantity=" + quantities.get(i));
+        }
+    }
 }

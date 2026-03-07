@@ -17,8 +17,8 @@ public class Main {
      * @param args command-line arguments (not used)
      */
     public static void main(String[] args) {
-        ArrayList<Clothes> clothesList = new ArrayList<>();
-        loadFromFile(clothesList);
+        Store store = new Store();
+        //loadFromFile(store);
 
         while (true) {
             System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Exit");
@@ -26,16 +26,16 @@ public class Main {
 
             switch (choice) {
                 case "1":
-                    searchMenu(clothesList);
+                    searchMenu(store);
                     break;
                 case "2":
-                    createObjectMenu(clothesList);
+                    createObjectMenu(store);
                     break;
                 case "3":
-                    showAll(clothesList);
+                    //showAll(store);
                     break;
                 case "4":
-                    saveToFile(clothesList);
+                    //saveToFile(store);
                     sc.close();
                     return;
                 default:
@@ -50,9 +50,9 @@ public class Main {
      * Displays the search submenu and allows the user
      * to choose a search criterion.
      *
-     * @param clothesList collection where objects are stored
+     * @param store collection where objects are stored
      */
-    public static void searchMenu(ArrayList<Clothes> clothesList) {
+    public static void searchMenu(Store store) {
         System.out.println("\nSearch by: ");
         System.out.println("1 - Size");
         System.out.println("2 - Max price");
@@ -60,15 +60,22 @@ public class Main {
         System.out.println("0 - Back");
 
         String choice = sc.nextLine();
+        ArrayList<Clothes> result;
         switch (choice) {
             case "1":
-                searchBySize(clothesList);
+                Size size = readSize();
+                result = store.searchBySize(size);
+                printSearchResults(result);
                 break;
             case "2":
-                searchByMaxPrice(clothesList);
+                double maxPrice = readDouble("Enter max price:");
+                result = store.searchByMaxPrice(maxPrice);
+                printSearchResults(result);
                 break;
             case "3":
-                searchByMinPrice(clothesList);
+                double minPrice = readDouble("Enter min price:");
+                result = store.searchByMinPrice(minPrice);
+                printSearchResults(result);
                 break;
             case "0":
                 return;
@@ -285,9 +292,9 @@ public class Main {
      * Displays a menu for creating different types of objects.
      * The created object is added to the collection.
      *
-     * @param clothesList collection where objects are stored
+     * @param store collection where objects are stored
      */
-    private static void createObjectMenu(ArrayList<Clothes> clothesList) {
+    private static void createObjectMenu(Store store) {
         while (true) {
             System.out.println("\nChoose object type:");
             System.out.println("1 - Pants");
@@ -298,24 +305,29 @@ public class Main {
 
             String choice = sc.nextLine();
 
+            Clothes created;
             switch (choice) {
                 case "1":
-                    clothesList.add(createPants());
-                    return;
+                    created = createPants();
+                    break;
                 case "2":
-                    clothesList.add(createShirts());
-                    return;
+                    created = createShirts();
+                    break;
                 case "3":
-                    clothesList.add(createTShirt());
-                    return;
+                    created = createTShirt();
+                    break;
                 case "4":
-                    clothesList.add(createJeans());
-                    return;
+                    created = createJeans();
+                    break;
                 case "0":
                     return;
                 default:
                     System.out.println("Invalid option.");
+                    continue;
             }
+            int quantity = (int) readDouble("Enter quantity (integer > 0):");
+            store.addNewClothes(created, quantity);
+            return;
         }
     }
 
