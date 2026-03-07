@@ -10,36 +10,31 @@ import java.io.*;
  */
 public class Main {
     private static final String inputFile = "./java-project/./input.txt";
+    private static final Scanner sc = new Scanner(System.in);
     /**
      * Starts the console application.
      *
      * @param args command-line arguments (not used)
      */
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
         ArrayList<Clothes> clothesList = new ArrayList<>();
         loadFromFile(clothesList);
 
         while (true) {
-            System.out.println("\n1 - Create new object\n2 - Show all\n3 - Exit");
+            System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Exit");
             String choice = sc.nextLine();
 
             switch (choice) {
                 case "1":
-                    createObjectMenu(sc, clothesList);
+                    searchMenu(clothesList);
                     break;
                 case "2":
-                    if (clothesList.isEmpty()) {
-                        System.out.println("No objects created.");
-                        break;
-                    }
-
-                    System.out.println("\n=== All objects ===");
-                    for (Clothes c : clothesList) {
-                        System.out.println(c);
-                    }
+                    createObjectMenu(clothesList);
                     break;
                 case "3":
+                    showAll(clothesList);
+                    break;
+                case "4":
                     saveToFile(clothesList);
                     sc.close();
                     return;
@@ -48,6 +43,130 @@ public class Main {
             }
         }
     }
+
+    //search
+
+    /**
+     * Displays the search submenu and allows the user
+     * to choose a search criterion.
+     *
+     * @param clothesList collection where objects are stored
+     */
+    public static void searchMenu(ArrayList<Clothes> clothesList) {
+        System.out.println("\nSearch by: ");
+        System.out.println("1 - Size");
+        System.out.println("2 - Max price");
+        System.out.println("3 - Min price");
+        System.out.println("0 - Back");
+
+        String choice = sc.nextLine();
+        switch (choice) {
+            case "1":
+                searchBySize(clothesList);
+                break;
+            case "2":
+                searchByMaxPrice(clothesList);
+                break;
+            case "3":
+                searchByMinPrice(clothesList);
+                break;
+            case "0":
+                return;
+            default:
+                System.out.println("Invalid option.");
+        }
+    }
+
+    /**
+     * Prints all objects found during the search.
+     * If no objects match the criteria, a message is shown.
+     *
+     * @param result list containing search results
+     */
+    private static void printSearchResults(ArrayList<Clothes> result) {
+        if (result.isEmpty()) {
+            System.out.println("No objects found.");
+            return;
+        }
+
+        for (Clothes c : result) {
+            System.out.println(c);
+        }
+    }
+
+    /**
+     * Searches objects in the collection by size.
+     *
+     * @param list collection of clothes objects
+     */
+    private static void searchBySize(ArrayList<Clothes> list){
+        Size size = readSize();
+
+        ArrayList<Clothes> result = new ArrayList<>();
+        for (Clothes c : list) {
+            if (c.getSize() == size) {
+                result.add(c);
+            }
+        }
+        printSearchResults(result);
+    }
+
+    /**
+     * Searches objects whose price is less than or equal
+     * to the specified maximum price.
+     *
+     * @param list collection of clothes objects
+     */
+    private static void searchByMaxPrice(ArrayList<Clothes> list) {
+        double maxPrice = readDouble("Enter max price:");
+
+        ArrayList<Clothes> result = new ArrayList<>();
+        for (Clothes c : list) {
+            if (c.getPrice() <= maxPrice) {
+                result.add(c);
+            }
+        }
+        printSearchResults(result);
+    }
+
+    /**
+     * Searches objects whose price is greater than or equal
+     * to the specified minimum price.
+     *
+     * @param list collection of clothes objects
+     */
+    private static void searchByMinPrice(ArrayList<Clothes> list) {
+        double minPrice = readDouble("Enter min price:");
+
+        ArrayList<Clothes> result = new ArrayList<>();
+        for (Clothes c : list) {
+            if (c.getPrice() >= minPrice) {
+                result.add(c);
+            }
+        }
+        printSearchResults(result);
+    }
+
+    //show
+
+    /**
+     * Displays all objects stored in the collection.
+     *
+     * @param list collection of clothes objects
+     */
+    private static void showAll(ArrayList<Clothes> list){
+        if (list.isEmpty()) {
+            System.out.println("No objects created.");
+            return;
+        }
+
+        System.out.println("\n=== All objects ===");
+        for (Clothes c : list) {
+            System.out.println(c);
+        }
+    }
+
+    //files
 
     /**
      * Loads objects from the input file into the collection.
@@ -160,14 +279,15 @@ public class Main {
         return "";
     }
 
+    //create (in console)
+
     /**
      * Displays a menu for creating different types of objects.
      * The created object is added to the collection.
      *
-     * @param sc scanner used for user input
      * @param clothesList collection where objects are stored
      */
-    private static void createObjectMenu(Scanner sc, ArrayList<Clothes> clothesList) {
+    private static void createObjectMenu(ArrayList<Clothes> clothesList) {
         while (true) {
             System.out.println("\nChoose object type:");
             System.out.println("1 - Pants");
@@ -180,16 +300,16 @@ public class Main {
 
             switch (choice) {
                 case "1":
-                    clothesList.add(createPants(sc));
+                    clothesList.add(createPants());
                     return;
                 case "2":
-                    clothesList.add(createShirts(sc));
+                    clothesList.add(createShirts());
                     return;
                 case "3":
-                    clothesList.add(createTShirt(sc));
+                    clothesList.add(createTShirt());
                     return;
                 case "4":
-                    clothesList.add(createJeans(sc));
+                    clothesList.add(createJeans());
                     return;
                 case "0":
                     return;
@@ -202,190 +322,135 @@ public class Main {
     /**
      * Creates a Pants object using console input.
      *
-     * @param sc Scanner object for reading user input
      * @return a valid Pants object
      */
-    private static Pants createPants(Scanner sc) {
-        while (true) {
-            try {
-                System.out.println("Enter name:");
-                String name = sc.nextLine();
+    private static Pants createPants() {
+        Clothes d = readData();
+        boolean pockets = readBoolean("Has pockets (true/false):");
 
-                System.out.println("Enter color:");
-                String color = sc.nextLine();
+        return new Pants(d.name, d.color, d.size, d.price, d.brand, d.material, pockets);
 
-                System.out.println("Enter size:");
-                Size size;
-                try{
-                    size = Size.valueOf(sc.nextLine().toUpperCase());
-                }catch(IllegalArgumentException e){
-                    System.out.println("Invalid size");
-                    continue;
-                }
-
-                System.out.println("Enter price:");
-                double price = Double.parseDouble(sc.nextLine());
-
-                System.out.println("Enter brand:");
-                String brand = sc.nextLine();
-
-                System.out.println("Enter material:");
-                String material = sc.nextLine();
-
-                System.out.println("Has pockets (true/false):");
-                boolean hasPockets = readBoolean(sc);
-
-                return new Pants(name, color, size, price, brand, material, hasPockets);
-            }catch (NumberFormatException   e) {
-                System.out.println("Invalid number");
-                sc.nextLine();
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
     }
 
     /**
      * Creates a Shirts object using console input.
      *
-     * @param sc Scanner object for reading user input
      * @return a valid Shirts object
      */
-    private static Shirts createShirts(Scanner sc) {
-        while (true) {
-            try {
-                System.out.println("Enter name:");
-                String name = sc.nextLine();
+    private static Shirts createShirts() {
+        Clothes d = readData();
+        boolean sleeve = readBoolean("Has long sleeves (true/false):");
 
-                System.out.println("Enter color:");
-                String color = sc.nextLine();
-
-                System.out.println("Enter size:");
-                Size size;
-                try{
-                    size = Size.valueOf(sc.nextLine().toUpperCase());
-                }catch(IllegalArgumentException e){
-                    System.out.println("Invalid size");
-                    continue;
-                }
-
-                System.out.println("Enter price:");
-                double price = Double.parseDouble(sc.nextLine());
-
-                System.out.println("Enter brand:");
-                String brand = sc.nextLine();
-
-                System.out.println("Enter material:");
-                String material = sc.nextLine();
-
-                System.out.println("Has long sleeves (true/false):");
-                boolean longSleeve = readBoolean(sc);
-
-                return new Shirts(name, color, size, price, brand, material, longSleeve);
-            }catch (NumberFormatException   e) {
-                System.out.println("Invalid number");
-                sc.nextLine();
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+        return new Shirts(d.name, d.color, d.size, d.price, d.brand, d.material, sleeve);
     }
 
     /**
      * Creates a TShirts object using console input.
      *
-     * @param sc Scanner object for reading user input
      * @return a valid TShirts object
      */
-    private static TShirts createTShirt(Scanner sc) {
-        while (true) {
-            try {
-                System.out.println("Enter name:");
-                String name = sc.nextLine();
+    private static TShirts createTShirt() {
+        Clothes d = readData();
+        boolean sleeve = readBoolean("Has long sleeves:");
+        boolean print = readBoolean("Has print:");
 
-                System.out.println("Enter color:");
-                String color = sc.nextLine();
-
-                System.out.println("Enter size:");
-                Size size = Size.valueOf(sc.nextLine().toUpperCase());
-
-                System.out.println("Enter price:");
-                double price = Double.parseDouble(sc.nextLine());
-
-                System.out.println("Enter brand:");
-                String brand = sc.nextLine();
-
-                System.out.println("Enter material:");
-                String material = sc.nextLine();
-
-                System.out.println("Has long sleeves (true/false):");
-                boolean longSleeve = readBoolean(sc);
-
-                System.out.println("Has print (true/false):");
-                boolean hasPrint = readBoolean(sc);
-
-                return new TShirts(name, color, size, price, brand, material, longSleeve, hasPrint);
-
-            } catch (Exception e) {
-                System.out.println("Invalid input.");
-            }
-        }
+        return new TShirts(d.name, d.color, d.size, d.price, d.brand, d.material, sleeve, print);
     }
 
     /**
      * Creates a Jeans object using console input.
      *
-     * @param sc Scanner object for reading user input
      * @return a valid Jeans object
      */
-    private static Jeans createJeans(Scanner sc) {
+    private static Jeans createJeans() {
+        Clothes d = readData();
+        boolean pockets = readBoolean("Has pockets:");
+        boolean ripped = readBoolean("Ripped:");
+
+        return new Jeans(d.name, d.color, d.size, d.price, d.brand, d.material, pockets, ripped);
+    }
+
+    //additional
+
+    /**
+     * Reads a boolean value from the console.
+     *
+     * @param message question to be shown
+     * @return boolean value entered by the user
+     */
+    private static boolean readBoolean(String message) {
         while (true) {
+            System.out.println(message);
+            String input = sc.nextLine().toLowerCase();
+            if (input.equals("true") || input.equals("false")) {
+                return Boolean.parseBoolean(input);
+            }
+            System.out.println("Enter true or false.");
+        }
+    }
+
+    /**
+     * Reads a double value from the console.
+     * Repeats input until a valid number is entered.
+     *
+     * @param message prompt message for the user
+     * @return valid double value
+     */
+    private static double readDouble(String message) {
+        while (true) {
+            System.out.println(message);
             try {
-                System.out.println("Enter name:");
-                String name = sc.nextLine();
-
-                System.out.println("Enter color:");
-                String color = sc.nextLine();
-
-                System.out.println("Enter size:");
-                Size size = Size.valueOf(sc.nextLine().toUpperCase());
-
-                System.out.println("Enter price:");
-                double price = Double.parseDouble(sc.nextLine());
-
-                System.out.println("Enter brand:");
-                String brand = sc.nextLine();
-
-                System.out.println("Enter material:");
-                String material = sc.nextLine();
-
-                System.out.println("Has pockets (true/false):");
-                boolean hasPockets = readBoolean(sc);
-
-                System.out.println("Ripped (true/false):");
-                boolean ripped = readBoolean(sc);
-
-                return new Jeans(name, color, size, price, brand, material, hasPockets, ripped);
-
-            } catch (Exception e) {
-                System.out.println("Invalid input.");
+                return Double.parseDouble(sc.nextLine());
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Invalid number.");
             }
         }
     }
 
     /**
-     * Reads a boolean value from the console.
+     * Reads a valid Size enum value from the console.
+     * Repeats input until a correct size is entered.
      *
-     * @param sc scanner used for input
-     * @return boolean value entered by the user
+     * @return selected size value
      */
-    private static boolean readBoolean(Scanner sc) {
+    private static Size readSize() {
         while (true) {
-            String input = sc.nextLine().toLowerCase();
-            if (input.equals("true") || input.equals("false")) {
-                return Boolean.parseBoolean(input);
+            System.out.println("Enter size (XXS XS S M L XL XXL):");
+            try {
+                return Size.valueOf(sc.nextLine().toUpperCase());
             }
-            System.out.println("Enter true or false:");
+            catch (IllegalArgumentException e) {
+                System.out.println("Invalid size.");
+            }
         }
+    }
+
+    /**
+     * Reads a string value from the console.
+     *
+     * @param message prompt message
+     * @return entered string
+     */
+    private static String readString(String message) {
+        System.out.println(message);
+        return sc.nextLine();
+    }
+
+    /**
+     * Reads basic Clothes data from the console.
+     * Used when creating any type of clothes object.
+     *
+     * @return Clothes object containing base attributes
+     */
+    private static Clothes readData() {
+        String name = readString("Enter name:");
+        String color = readString("Enter color:");
+        Size size = readSize();
+        double price = readDouble("Enter price:");
+        String brand = readString("Enter brand:");
+        String material = readString("Enter material:");
+
+        return new Clothes(name, color, size, price, brand, material);
     }
 }
