@@ -30,26 +30,32 @@ public class Main {
         Store store = new Store();
         loadFromFile(store);
 
-        while (true) {
-            System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Exit");
-            String choice = sc.nextLine();
+        try {
+            while (true) {
+                System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Exit");
+                String choice = sc.nextLine();
 
-            switch (choice) {
-                case "1":
-                    searchMenu(store);
-                    break;
-                case "2":
-                    createObjectMenu(store, db);
-                    break;
-                case "3":
-                    store.printAll();
-                    break;
-                case "4":
-                    saveToFile(store);
-                    sc.close();
-                    return;
-                default:
-                    System.out.println("Invalid option.");
+                switch (choice) {
+                    case "1":
+                        searchMenu(store);
+                        break;
+                    case "2":
+                        createObjectMenu(store, db);
+                        break;
+                    case "3":
+                        store.printAll();
+                        break;
+                    case "4":
+                        saveToFile(store);
+                        sc.close();
+                        return;
+                    default:
+                        System.out.println("Invalid option.");
+                }
+            }
+        }finally {
+            if (db != null) {
+                db.close();
             }
         }
     }
