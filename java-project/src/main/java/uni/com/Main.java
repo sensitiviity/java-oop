@@ -14,7 +14,7 @@ public class Main {
     /**
      * Starts the console application. Loads data from file and runs main menu loop.
      *
-     * @param args command-line arguments (not used)
+     * @param args args [0] = path to db.properties file
      */
     public static void main(String[] args) {
         DatabaseManager db = null;
@@ -39,7 +39,7 @@ public class Main {
                     searchMenu(store);
                     break;
                 case "2":
-                    createObjectMenu(store);
+                    createObjectMenu(store, db);
                     break;
                 case "3":
                     store.printAll();
@@ -260,7 +260,7 @@ public class Main {
      *
      * @param store Target Store
      */
-    private static void createObjectMenu(Store store) {
+    private static void createObjectMenu(Store store, DatabaseManager dbManager) {
         while (true) {
             System.out.println("\nChoose object type:");
             System.out.println("1 - Pants");
@@ -295,6 +295,14 @@ public class Main {
                 int quantity = readInt("Enter quantity (integer > 0):");
                 store.addNewClothes(created, quantity);
                 System.out.println("Object added successfully!");
+
+                if (dbManager != null) {
+                    try {
+                        dbManager.saveClothes(created, quantity);
+                    } catch (Exception e) {
+                        System.out.println("DB save failed: " + e.getMessage());
+                    }
+                }
             }catch(Exception e){
                 System.out.println("Error creating object.");
             }
