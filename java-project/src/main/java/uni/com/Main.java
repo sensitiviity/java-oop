@@ -17,6 +17,16 @@ public class Main {
      * @param args command-line arguments (not used)
      */
     public static void main(String[] args) {
+        DatabaseManager db = null;
+        if (args.length > 0) {
+            try {
+                db = new DatabaseManager(args[0]);
+                db.connect();
+            } catch (Exception e) {
+                System.out.println("DB unavailable: " + e.getMessage());
+            }
+        }
+
         Store store = new Store();
         loadFromFile(store);
 
