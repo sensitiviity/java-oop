@@ -297,10 +297,10 @@ public class Main {
      * @return a valid Pants object
      */
     private static Pants createPants() {
-        Clothes d = readData();
+        Object[] d = readData();
         boolean pockets = readBoolean("Has pockets (true/false):");
 
-        return new Pants(d.name, d.color, d.size, d.price, d.brand, d.material, pockets);
+        return new Pants((String)d[0], (String)d[1], (Size)d[2], (double)d[3], (String)d[4], (String)d[5], pockets);
 
     }
 
@@ -310,10 +310,10 @@ public class Main {
      * @return a valid Shirts object
      */
     private static Shirts createShirts() {
-        Clothes d = readData();
+        Object[] d = readData();
         boolean sleeve = readBoolean("Has long sleeves (true/false):");
 
-        return new Shirts(d.name, d.color, d.size, d.price, d.brand, d.material, sleeve);
+        return new Shirts((String)d[0], (String)d[1], (Size)d[2], (double)d[3], (String)d[4], (String)d[5], sleeve);
     }
 
     /**
@@ -322,11 +322,11 @@ public class Main {
      * @return a valid TShirts object
      */
     private static TShirts createTShirt() {
-        Clothes d = readData();
+        Object[] d = readData();
         boolean sleeve = readBoolean("Has long sleeves:");
         boolean print = readBoolean("Has print:");
 
-        return new TShirts(d.name, d.color, d.size, d.price, d.brand, d.material, sleeve, print);
+        return new TShirts((String)d[0], (String)d[1], (Size)d[2], (double)d[3], (String)d[4], (String)d[5], sleeve, print);
     }
 
     /**
@@ -335,11 +335,11 @@ public class Main {
      * @return a valid Jeans object
      */
     private static Jeans createJeans() {
-        Clothes d = readData();
+        Object[] d = readData();
         boolean pockets = readBoolean("Has pockets:");
         boolean ripped = readBoolean("Ripped:");
 
-        return new Jeans(d.name, d.color, d.size, d.price, d.brand, d.material, pockets, ripped);
+        return new Jeans((String)d[0], (String)d[1], (Size)d[2], (double)d[3], (String)d[4], (String)d[5], pockets, ripped);
     }
 
     //additional
@@ -436,7 +436,7 @@ public class Main {
      *
      * @return Clothes object containing base attributes
      */
-    private static Clothes readData() {
+    private static Object[] readData() {
         String name = readString("Enter name:");
         String color = readString("Enter color:");
         Size size = readSize();
@@ -444,6 +444,6 @@ public class Main {
         String brand = readString("Enter brand:");
         String material = readString("Enter material:");
 
-        return new Clothes(name, color, size, price, brand, material);
+        return new Object[]{name, color, size, price, brand, material};
     }
 }

@@ -4,13 +4,13 @@ package uni.com;
  * Represents a clothing item with characteristics: name, color, size, price, brand and material.
  * The class provides validation of input data in constructors and setters. Invalid values cause IllegalArgumentException.
  */
-public class Clothes {
-    String name;
-    String color;
-    Size size;
-    double price;
-    String brand;
-    String material;
+public abstract class Clothes implements Comparable<Clothes> {
+    protected String name;
+    protected String color;
+    protected Size size;
+    protected double price;
+    protected String brand;
+    protected String material;
 
     /**
      * Creates a new {@code Clothes} object.
@@ -127,5 +127,13 @@ public class Clothes {
         this.price = other.price;
         this.brand = other.brand;
         this.material = other.material;
+    }
+
+    /**
+     * Comparable implementation: сортування по NAME (алфавітно)
+     */
+    @Override
+    public int compareTo(Clothes other) {
+        return this.name.compareTo(other.name);
     }
 }
