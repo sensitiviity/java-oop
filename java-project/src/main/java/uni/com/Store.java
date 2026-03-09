@@ -1,6 +1,7 @@
 package uni.com;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Manages clothing inventory. Stores unique Clothes instances with quantities.
@@ -115,6 +116,26 @@ public class Store {
         System.out.println("\n=== All objects in store ===");
         for (int i = 0; i < clothesList.size(); i++) {
             System.out.println(clothesList.get(i) + ", quantity=" + quantities.get(i));
+        }
+    }
+
+    /**
+     * Prints all clothes sorted by name
+     */
+    public void printSorted() {
+        if (clothesList.isEmpty()) {
+            System.out.println("No objects to sort.");
+            return;
+        }
+
+        ArrayList<Clothes> sortedList = new ArrayList<>(clothesList);
+        Collections.sort(sortedList);
+
+        System.out.println("\n=== Sorted objects by name ===");
+        for (int i = 0; i < sortedList.size(); i++) {
+            int qtyIndex = clothesList.indexOf(sortedList.get(i));
+            int quantity = (qtyIndex >= 0) ? quantities.get(qtyIndex) : 0;
+            System.out.println(sortedList.get(i) + ", quantity=" + quantity);
         }
     }
 }

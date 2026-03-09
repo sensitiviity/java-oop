@@ -21,7 +21,7 @@ public class Main {
         loadFromFile(store);
 
         while (true) {
-            System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Exit");
+            System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Print sorted by name\n5 - Exit");
             String choice = sc.nextLine();
 
             switch (choice) {
@@ -35,6 +35,9 @@ public class Main {
                     store.printAll();
                     break;
                 case "4":
+                    store.printSorted();
+                    break;
+                case "5":
                     saveToFile(store);
                     sc.close();
                     return;

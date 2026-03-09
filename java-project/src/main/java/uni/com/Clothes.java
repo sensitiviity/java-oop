@@ -130,7 +130,7 @@ public abstract class Clothes implements Comparable<Clothes> {
     }
 
     /**
-     * Comparable implementation: сортування по NAME (алфавітно)
+     * Comparable implementation
      */
     @Override
     public int compareTo(Clothes other) {
