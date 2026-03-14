@@ -138,4 +138,18 @@ public class Store {
             System.out.println(sortedList.get(i) + ", quantity=" + quantity);
         }
     }
+
+
+    public void sortByName(){
+
+    }
+
+    public void sortByPrice(){
+
+    }
+
+    public void sortBySize(){
+
+    }
+
 }

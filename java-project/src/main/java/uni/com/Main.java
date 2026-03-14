@@ -35,7 +35,7 @@ public class Main {
                     store.printAll();
                     break;
                 case "4":
-                    store.printSorted();
+                    sortingMenu(store);
                     break;
                 case "5":
                     saveToFile(store);
@@ -345,6 +345,33 @@ public class Main {
         return new Jeans((String)d[0], (String)d[1], (Size)d[2], (double)d[3], (String)d[4], (String)d[5], pockets, ripped);
     }
 
+    //sorting
+
+    private static void sortingMenu(Store store) {
+        System.out.println("\nChoose sorting criterion:");
+        System.out.println("1 - Sort by name");
+        System.out.println("2 - Sort by price");
+        System.out.println("3 - Sort by size");
+        System.out.println("0 - Back");
+
+        String choice = sc.nextLine();
+        switch (choice) {
+            case "1":
+                store.sortByName();
+                break;
+            case "2":
+                store.sortByPrice();
+                break;
+            case "3":
+                store.sortBySize();
+                break;
+            case "0":
+                return;
+            default:
+                System.out.println("Invalid option.");
+        }
+    }
+
     //additional
 
     /**
@@ -449,4 +476,6 @@ public class Main {
 
         return new Object[]{name, color, size, price, brand, material};
     }
+
+
 }
