@@ -2,6 +2,7 @@ package uni.com;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Manages clothing inventory. Stores unique Clothes instances with quantities.
@@ -136,6 +137,94 @@ public class Store {
             int qtyIndex = clothesList.indexOf(sortedList.get(i));
             int quantity = (qtyIndex >= 0) ? quantities.get(qtyIndex) : 0;
             System.out.println(sortedList.get(i) + ", quantity=" + quantity);
+        }
+    }
+
+    /**
+     * Sort objects by name
+     */
+    public void sortByName() {
+        if (clothesList.isEmpty()) {
+            System.out.println("No objects to sort.");
+            return;
+        }
+
+        ArrayList<Clothes> sorted = new ArrayList<>(clothesList);
+
+        Comparator<Clothes> cmp = new Comparator<Clothes>() {
+            @Override
+            public int compare(Clothes o1, Clothes o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        };
+
+        Collections.sort(sorted, cmp);
+
+        System.out.println("\n=== Sorted by name ===");
+
+        for (Clothes c : sorted) {
+            int index = clothesList.indexOf(c);
+            int quantity = quantities.get(index);
+            System.out.println(c + ", quantity=" + quantity);
+        }
+    }
+
+    /**
+     * Sort objects by price
+     */
+    public void sortByPrice() {
+        if (clothesList.isEmpty()) {
+            System.out.println("No objects to sort.");
+            return;
+        }
+
+        ArrayList<Clothes> sorted = new ArrayList<>(clothesList);
+
+        Comparator<Clothes> cmp = new Comparator<Clothes>() {
+            @Override
+            public int compare(Clothes o1, Clothes o2) {
+                return Double.compare(o1.getPrice(), o2.getPrice());
+            }
+        };
+
+        Collections.sort(sorted, cmp);
+
+        System.out.println("\n=== Sorted by price ===");
+
+        for (Clothes c : sorted) {
+            int index = clothesList.indexOf(c);
+            int quantity = quantities.get(index);
+            System.out.println(c + ", quantity=" + quantity);
+        }
+    }
+
+    /**
+     * Sort objects by size
+     */
+    public void sortBySize() {
+
+        if (clothesList.isEmpty()) {
+            System.out.println("No objects to sort.");
+            return;
+        }
+
+        ArrayList<Clothes> sorted = new ArrayList<>(clothesList);
+
+        Comparator<Clothes> cmp = new Comparator<Clothes>() {
+            @Override
+            public int compare(Clothes o1, Clothes o2) {
+                return o1.getSize().compareTo(o2.getSize());
+            }
+        };
+
+        Collections.sort(sorted, cmp);
+
+        System.out.println("\n=== Sorted by size ===");
+
+        for (Clothes c : sorted) {
+            int index = clothesList.indexOf(c);
+            int quantity = quantities.get(index);
+            System.out.println(c + ", quantity=" + quantity);
         }
     }
 }

@@ -9,7 +9,7 @@ import java.io.*;
  * Handles invalid input without terminating program.
  */
 public class Main {
-    private static final String inputFile = "./java-project/./input.txt";
+    private static final String inputFile = "./input.txt";
     private static final Scanner sc = new Scanner(System.in);
     /**
      * Starts the console application. Loads data from file and runs main menu loop.
@@ -21,7 +21,7 @@ public class Main {
         loadFromFile(store);
 
         while (true) {
-            System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Print sorted by name\n5 - Exit");
+            System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Print sorted\n0 - Exit");
             String choice = sc.nextLine();
 
             switch (choice) {
@@ -35,9 +35,9 @@ public class Main {
                     store.printAll();
                     break;
                 case "4":
-                    store.printSorted();
+                    sortingMenu(store);
                     break;
-                case "5":
+                case "0":
                     saveToFile(store);
                     sc.close();
                     return;
@@ -343,6 +343,33 @@ public class Main {
         boolean ripped = readBoolean("Ripped:");
 
         return new Jeans((String)d[0], (String)d[1], (Size)d[2], (double)d[3], (String)d[4], (String)d[5], pockets, ripped);
+    }
+
+    //sorting
+
+    private static void sortingMenu(Store store) {
+        System.out.println("\nChoose sorting criterion:");
+        System.out.println("1 - Sort by name");
+        System.out.println("2 - Sort by price");
+        System.out.println("3 - Sort by size");
+        System.out.println("0 - Back");
+
+        String choice = sc.nextLine();
+        switch (choice) {
+            case "1":
+                store.sortByName();
+                break;
+            case "2":
+                store.sortByPrice();
+                break;
+            case "3":
+                store.sortBySize();
+                break;
+            case "0":
+                return;
+            default:
+                System.out.println("Invalid option.");
+        }
     }
 
     //additional
