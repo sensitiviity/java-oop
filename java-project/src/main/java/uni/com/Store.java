@@ -151,12 +151,7 @@ public class Store {
 
         ArrayList<Clothes> sorted = new ArrayList<>(clothesList);
 
-        Comparator<Clothes> cmp = new Comparator<Clothes>() {
-            @Override
-            public int compare(Clothes o1, Clothes o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        };
+        Comparator<Clothes> cmp = (o1, o2) -> o1.getName().compareTo(o2.getName());
 
         Collections.sort(sorted, cmp);
 
@@ -180,12 +175,7 @@ public class Store {
 
         ArrayList<Clothes> sorted = new ArrayList<>(clothesList);
 
-        Comparator<Clothes> cmp = new Comparator<Clothes>() {
-            @Override
-            public int compare(Clothes o1, Clothes o2) {
-                return Double.compare(o1.getPrice(), o2.getPrice());
-            }
-        };
+        Comparator<Clothes> cmp = (o1, o2) -> Double.compare(o1.getPrice(), o2.getPrice());
 
         Collections.sort(sorted, cmp);
 
@@ -210,12 +200,7 @@ public class Store {
 
         ArrayList<Clothes> sorted = new ArrayList<>(clothesList);
 
-        Comparator<Clothes> cmp = new Comparator<Clothes>() {
-            @Override
-            public int compare(Clothes o1, Clothes o2) {
-                return o1.getSize().compareTo(o2.getSize());
-            }
-        };
+        Comparator<Clothes> cmp = (o1, o2) -> o1.getSize().compareTo(o2.getSize());
 
         Collections.sort(sorted, cmp);
 
