@@ -9,7 +9,7 @@ import java.io.*;
  * Handles invalid input without terminating program.
  */
 public class Main {
-    private static final String inputFile = "./java-project/./input.txt";
+    private static final String inputFile = "./input.txt";
     private static final Scanner sc = new Scanner(System.in);
     /**
      * Starts the console application. Loads data from file and runs main menu loop.
@@ -21,7 +21,7 @@ public class Main {
         loadFromFile(store);
 
         while (true) {
-            System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Print sorted by name\n5 - Exit");
+            System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Print sorted\n0 - Exit");
             String choice = sc.nextLine();
 
             switch (choice) {
@@ -37,7 +37,7 @@ public class Main {
                 case "4":
                     sortingMenu(store);
                     break;
-                case "5":
+                case "0":
                     saveToFile(store);
                     sc.close();
                     return;
@@ -476,6 +476,4 @@ public class Main {
 
         return new Object[]{name, color, size, price, brand, material};
     }
-
-
 }
