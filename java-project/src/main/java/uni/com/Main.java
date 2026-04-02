@@ -59,6 +59,7 @@ public class Main {
         System.out.println("1 - Size");
         System.out.println("2 - Max price");
         System.out.println("3 - Min price");
+        System.out.println("4 - UUID");
         System.out.println("0 - Back");
 
         String choice = sc.nextLine();
@@ -78,6 +79,9 @@ public class Main {
                 double minPrice = readDouble("Enter min price:");
                 result = store.searchByMinPrice(minPrice);
                 printSearchResults(result);
+                break;
+            case "4":
+                searchByUuid(store);
                 break;
             case "0":
                 return;
@@ -99,6 +103,22 @@ public class Main {
 
         for (Clothes c : result) {
             System.out.println(c);
+        }
+    }
+
+    private static void searchByUuid(Store store) {
+        System.out.println("Enter UUID (or part of it):");
+        String uuidStr = sc.nextLine().trim();
+
+        try {
+            Clothes found = store.searchByUuid(uuidStr);
+            if (found != null) {
+                System.out.println("Found: " + found);
+            } else {
+                System.out.println("Object not found.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid UUID format: " + e.getMessage());
         }
     }
 

@@ -212,4 +212,30 @@ public class Store {
             System.out.println(c + ", quantity=" + quantity);
         }
     }
+
+    /**
+     * Searches first Clothes by exact UUID match or UUID prefix (first 8 chars).
+     * @param uuidStr UUID string or prefix
+     * @return Matching Clothes or null
+     */
+    public Clothes searchByUuid(String uuidStr) {
+        if (uuidStr == null || uuidStr.isEmpty()) {
+            return null;
+        }
+
+        uuidStr = uuidStr.toLowerCase();
+        boolean isFullUuid = uuidStr.length() == 36;
+
+        for (Clothes c : clothesList) {
+            String cUuid = c.getUuid().toString().toLowerCase();
+            if (isFullUuid) {
+                if (cUuid.equals(uuidStr)) {
+                    return c;
+                }
+            } else if (cUuid.startsWith(uuidStr)) {
+                return c;
+            }
+        }
+        return null;
+    }
 }

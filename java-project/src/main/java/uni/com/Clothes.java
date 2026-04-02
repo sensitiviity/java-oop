@@ -1,16 +1,19 @@
 package uni.com;
 
+import java.util.UUID;
+
 /**
  * Represents a clothing item with characteristics: name, color, size, price, brand and material.
  * The class provides validation of input data in constructors and setters. Invalid values cause IllegalArgumentException.
  */
-public abstract class Clothes implements Comparable<Clothes> {
+public abstract class Clothes implements Comparable<Clothes>, Identifiable  {
     protected String name;
     protected String color;
     protected Size size;
     protected double price;
     protected String brand;
     protected String material;
+    private final UUID uuid;
 
     /**
      * Creates a new {@code Clothes} object.
@@ -25,6 +28,7 @@ public abstract class Clothes implements Comparable<Clothes> {
      * @throws IllegalArgumentException if any parameter is invalid
      */
     public Clothes(String name, String color, Size size, double price, String brand, String material) {
+        this.uuid = java.util.UUID.randomUUID();
         setName(name);
         setColor(color);
         setSize(size);
@@ -56,6 +60,11 @@ public abstract class Clothes implements Comparable<Clothes> {
 
     public String getMaterial() {
         return material;
+    }
+
+    @Override
+    public UUID getUuid() {
+        return uuid;
     }
 
     //сетери
@@ -96,7 +105,7 @@ public abstract class Clothes implements Comparable<Clothes> {
      */
     @Override
     public String toString() {
-        return "name=" + name + ", color=" + color + ", size=" + size + ", price=" + price + ", brand=" + brand + ", material=" + material;
+        return "[" + uuid.toString().substring(0, 8) + "...] " + "name=" + name + ", color=" + color + ", size=" + size + ", price=" + price + ", brand=" + brand + ", material=" + material;
     }
 
     /**
@@ -121,6 +130,7 @@ public abstract class Clothes implements Comparable<Clothes> {
      */
     public Clothes(Clothes other) {
         if (other == null) throw new IllegalArgumentException("Object to copy cannot be null");
+        this.uuid = java.util.UUID.randomUUID();
         this.name = other.name;
         this.color = other.color;
         this.size = other.size;
