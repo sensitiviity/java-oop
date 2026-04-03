@@ -21,7 +21,7 @@ public class Main {
         loadFromFile(store);
 
         while (true) {
-            System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Print sorted\n5 - Update object\n0 - Exit");
+            System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Print sorted\n5 - Update object\n6 - Delete object\n0 - Exit");
             String choice = sc.nextLine();
 
             switch (choice) {
@@ -39,6 +39,9 @@ public class Main {
                     break;
                 case "5":
                     updateObjectMenu(store);
+                    break;
+                case "6":
+                    deleteObjectMenu(store);
                     break;
                 case "0":
                     saveToFile(store);
@@ -369,7 +372,6 @@ public class Main {
     }
 
     //sorting
-
     private static void sortingMenu(Store store) {
         System.out.println("\nChoose sorting criterion:");
         System.out.println("1 - Sort by name");
@@ -453,6 +455,47 @@ public class Main {
             System.out.println("New object: " + newClothes);
         } else {
             System.out.println("Failed to update object");
+        }
+    }
+
+    //delete
+    private static void deleteObjectMenu(Store store){
+        if(store.getClothesList().isEmpty()){
+            System.out.println("Store is currently empty.");
+            return;
+        }
+
+        System.out.println("\nDeleting");
+        store.printAll();
+
+        System.out.print("\nEnter index to delete: ");
+        String indexStr = sc.nextLine().trim();
+
+        int index;
+        try{
+            index = Integer.parseInt(indexStr) - 1;
+            if(index < 0 || index >= store.getClothesList().size()){
+                System.out.println("Invalid index.");
+                return;
+            }
+        }catch(NumberFormatException e){
+            System.out.println("Invalid index.");
+            return;
+        }
+
+        Clothes toDelete = store.getClothesList().get(index);
+        System.out.println("\nConfirm deletion of this object (yes/no)?");
+        System.out.println(toDelete);
+
+        String confirm = sc.nextLine().trim();
+        if(confirm.equals("yes") || confirm.equals("y")){
+            if(store.delete(toDelete)){
+                System.out.println("Object deleted successfully");
+            }else{
+                System.out.println("Failed to delete object");
+            }
+        }else{
+            System.out.println("Deletion cancelled.");
         }
     }
 
