@@ -238,4 +238,41 @@ public class Store {
         }
         return null;
     }
+
+    //update
+    public boolean update(Clothes existingObject, Clothes newObject) {
+        if (existingObject == null || newObject == null) {
+            return false;
+        }
+
+        for (int i = 0; i < clothesList.size(); i++) {
+            if (clothesList.get(i).equals(existingObject)) {
+                clothesList.set(i, newObject);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //delete
+    public boolean delete(Clothes existingObject) {
+        if (existingObject == null) {
+            return false;
+        }
+
+        int index = -1;
+        for (int i = 0; i < clothesList.size(); i++) {
+            if (clothesList.get(i).equals(existingObject)) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index >= 0) {
+            clothesList.remove(index);
+            quantities.remove(index);
+            return true;
+        }
+        return false;
+    }
 }
