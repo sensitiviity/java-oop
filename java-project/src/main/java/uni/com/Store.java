@@ -3,6 +3,8 @@ package uni.com;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import uni.com.exceptions.ObjectNotFoundException;
+import uni.com.exceptions.InvalidFieldValueException;
 
 /**
  * Manages clothing inventory. Stores unique Clothes instances with quantities.
@@ -34,9 +36,12 @@ public class Store {
      * @param quantity Amount (>0)
      * @throws IllegalArgumentException if invalid input
      */
-    public void addNewClothes(Clothes cl, int quantity) {
-        if (cl == null || quantity <= 0) {
-            throw new IllegalArgumentException("Clothes is null or quantity <= 0");
+    public void addNewClothes(Clothes cl, int quantity) throws InvalidFieldValueException {
+        if (cl == null) {
+            throw new InvalidFieldValueException("Clothes cannot be null");
+        }
+        if (quantity <= 0) {
+            throw new InvalidFieldValueException("Quantity must be positive");
         }
 
         int index = -1;
@@ -240,9 +245,9 @@ public class Store {
     }
 
     //update
-    public boolean update(Clothes existingObject, Clothes newObject) {
+    public boolean update(Clothes existingObject, Clothes newObject) throws ObjectNotFoundException, InvalidFieldValueException {
         if (existingObject == null || newObject == null) {
-            return false;
+            throw new InvalidFieldValueException("Objects cannot be null");
         }
 
         for (int i = 0; i < clothesList.size(); i++) {
@@ -251,13 +256,13 @@ public class Store {
                 return true;
             }
         }
-        return false;
+        throw new ObjectNotFoundException("Object not found for update");
     }
 
     //delete
-    public boolean delete(Clothes existingObject) {
+    public boolean delete(Clothes existingObject) throws InvalidFieldValueException, ObjectNotFoundException {
         if (existingObject == null) {
-            return false;
+            throw new InvalidFieldValueException("Object cannot be null");
         }
 
         int index = -1;
@@ -273,6 +278,6 @@ public class Store {
             quantities.remove(index);
             return true;
         }
-        return false;
+        throw new ObjectNotFoundException("Object not found for deletion");
     }
 }

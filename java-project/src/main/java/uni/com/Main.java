@@ -3,6 +3,8 @@ package uni.com;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
+import uni.com.exceptions.ObjectNotFoundException;
+import uni.com.exceptions.InvalidFieldValueException;
 
 /**
  * Application driver with console menu.
@@ -16,7 +18,7 @@ public class Main {
      *
      * @param args command-line arguments (not used)
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidFieldValueException {
         Store store = new Store();
         loadFromFile(store);
 
@@ -155,8 +157,10 @@ public class Main {
                         store.addNewClothes(c, quantity);
                         count++;
                     }
-                }catch (Exception e){
-                    System.out.println("Invalid line: " + line) ;
+                } catch (InvalidFieldValueException e) {
+                    System.out.println("Invalid object data: " + e.getMessage());
+                } catch (Exception e) {
+                    System.out.println("Invalid line: " + line);
                 }
             }
             String printAfterReading = (count == 1) ? ("In input file was found 1 object.") : ("In input file were found " + count + " objects.");
@@ -174,9 +178,13 @@ public class Main {
      * @param line Raw line from file
      * @return Parsed Clothes or null on parse failure
      */
-    private static Clothes parseLine(String line) {
+    private static Clothes parseLine(String line) throws InvalidFieldValueException {
         if (line == null || line.trim().isEmpty()) return null;
         String[] parts = line.split(";");
+
+        if (parts.length < 7) {
+            throw new InvalidFieldValueException("Not enough fields in line: " + line);
+        }
 
         try {
             String type = parts[0].toLowerCase();
@@ -189,30 +197,29 @@ public class Main {
 
             switch (type) {
                 case "pants":
-                    if (parts.length < 8) throw new IllegalArgumentException("Pants needs 8 fields");
+                    if (parts.length < 8) throw new InvalidFieldValueException("Pants needs 8 fields");;
                     boolean pockets = Boolean.parseBoolean(parts[7]);
                     return new Pants(name, color, size, price, brand, material, pockets);
                 case "jeans":
-                    if (parts.length < 9) throw new IllegalArgumentException("Jeans needs 9 fields");
+                    if (parts.length < 9) throw new InvalidFieldValueException("Jeans needs 9 fields");;
                     boolean pocketsJ = Boolean.parseBoolean(parts[7]);
                     boolean ripped = Boolean.parseBoolean(parts[8]);
                     return new Jeans(name, color, size, price, brand, material, pocketsJ, ripped);
                 case "shirts":
-                    if (parts.length < 8) throw new IllegalArgumentException("Shirts needs 8 fields");
+                    if (parts.length < 8) throw new InvalidFieldValueException("Shirts needs 8 fields");;
                     boolean sleeve = Boolean.parseBoolean(parts[7]);
                     return new Shirts(name, color, size, price, brand, material, sleeve);
                 case "tshirts":
-                    if (parts.length < 9) throw new IllegalArgumentException("TShirts needs 9 fields");
+                    if (parts.length < 9) throw new InvalidFieldValueException("TShirts needs 9 fields");;
                     boolean sleeveT = Boolean.parseBoolean(parts[7]);
                     boolean print = Boolean.parseBoolean(parts[8]);
                     return new TShirts(name, color, size, price, brand, material, sleeveT, print);
                 default:
-                    throw new IllegalArgumentException("Unknown type: " + type);
+                    throw new InvalidFieldValueException("Unknown type: " + type);
             }
-        }catch(Exception e){
-            System.out.println("Error parsing line: " + line);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidFieldValueException("Invalid field value: " + e.getMessage());
         }
-        return null;
     }
 
     /**
@@ -222,12 +229,17 @@ public class Main {
      * @return Parsed integer quantity (>0 expected)
      * @throws IllegalArgumentException on parse failure
      */
-    private static int parseQuantity(String line) {
+    private static int parseQuantity(String line) throws InvalidFieldValueException {
         String[] parts = line.split(";");
+        String qtyStr = parts[parts.length - 1].trim();
         try {
-            return Integer.parseInt(parts[parts.length - 1].trim());
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid quantity: " + parts[parts.length - 1]);
+            int qty = Integer.parseInt(qtyStr);
+            if (qty <= 0) {
+                throw new InvalidFieldValueException("Quantity must be positive: " + qtyStr);
+            }
+            return qty;
+        } catch (NumberFormatException | InvalidFieldValueException e) {
+            throw new InvalidFieldValueException("Invalid quantity: " + qtyStr);
         }
     }
 
@@ -236,7 +248,7 @@ public class Main {
      *
      * @param store Source Store with clothes and quantities
      */
-    private static void saveToFile(Store store) {
+    private static void saveToFile(Store store) throws InvalidFieldValueException {
         try(PrintWriter writer = new PrintWriter(new FileWriter(inputFile))){
             for (int i = 0; i < store.getClothesList().size(); i++) {
                 Clothes c = store.getClothesList().get(i);
@@ -245,7 +257,7 @@ public class Main {
             }
             System.out.println("Objects saved to " + inputFile);
         }catch(IOException e){
-            System.out.println("Error writing file.");
+            throw new InvalidFieldValueException("Cannot write to file: " + inputFile);
         }
     }
 
@@ -450,11 +462,17 @@ public class Main {
             newClothes = new Pants(newName, newColor, newSize, newPrice, newBrand, newMaterial, pockets);
         }
 
-        if (store.update(oldClothes, newClothes)) {
-            System.out.println("Object updated successfully");
-            System.out.println("New object: " + newClothes);
-        } else {
-            System.out.println("Failed to update object");
+        try {
+            if (store.update(oldClothes, newClothes)) {
+                System.out.println("Object updated successfully!");
+                System.out.println("New object: " + newClothes);
+            }
+        } catch (ObjectNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (InvalidFieldValueException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
         }
     }
 
@@ -488,14 +506,16 @@ public class Main {
         System.out.println(toDelete);
 
         String confirm = sc.nextLine().trim();
-        if(confirm.equals("yes") || confirm.equals("y")){
-            if(store.delete(toDelete)){
-                System.out.println("Object deleted successfully");
-            }else{
-                System.out.println("Failed to delete object");
+        try {
+            if (store.delete(toDelete)) {
+                System.out.println("Object deleted successfully!");
             }
-        }else{
-            System.out.println("Deletion cancelled.");
+        } catch (ObjectNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (InvalidFieldValueException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
         }
     }
 
