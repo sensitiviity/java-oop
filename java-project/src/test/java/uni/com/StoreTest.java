@@ -16,7 +16,7 @@ public class StoreTest {
     private TShirts tshirt2;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws InvalidFieldValueException {
         store = new Store();
         tshirt1 = new TShirts("T1", "white", Size.M, 100.0, "Brand1", "cotton", false, false);
         tshirt2 = new TShirts("T2", "black", Size.L, 150.0, "Brand2", "cotton", true, true);
