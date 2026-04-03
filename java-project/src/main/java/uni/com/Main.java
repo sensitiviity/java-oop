@@ -21,7 +21,7 @@ public class Main {
         loadFromFile(store);
 
         while (true) {
-            System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Print sorted\n0 - Exit");
+            System.out.println("\n1 - Search object\n2 - Create new object\n3 - Show all\n4 - Print sorted\n5 - Update object\n0 - Exit");
             String choice = sc.nextLine();
 
             switch (choice) {
@@ -36,6 +36,9 @@ public class Main {
                     break;
                 case "4":
                     sortingMenu(store);
+                    break;
+                case "5":
+                    updateObjectMenu(store);
                     break;
                 case "0":
                     saveToFile(store);
@@ -392,6 +395,67 @@ public class Main {
         }
     }
 
+    //updating
+    private static void updateObjectMenu(Store store){
+        if(store.getClothesList().isEmpty()){
+            System.out.println("Store is currently empty.");
+            return;
+        }
+
+        System.out.println("\nUpdating");
+        store.printAll();
+
+        System.out.print("\nEnter index to update: ");
+        String indexStr = sc.nextLine().trim();
+
+        int index;
+        try{
+            index = Integer.parseInt(indexStr) - 1;
+            if(index < 0 || index >= store.getClothesList().size()){
+                System.out.println("Invalid index.");
+                return;
+            }
+        }catch (NumberFormatException e){
+            System.out.println("Invalid index.");
+            return;
+        }
+
+        Clothes oldClothes = store.getClothesList().get(index);
+        System.out.println("Current items: " + oldClothes);
+
+        System.out.println("\nEnter new values (press Enter to keep current):");
+        String newName = readStringWithDefault("New name (" + oldClothes.getName() + "):", oldClothes.getName());
+        String newColor = readStringWithDefault("New color (" + oldClothes.getColor() + "):", oldClothes.getColor());
+        Size newSize = readSizeWithDefault("New size (" + oldClothes.getSize() + "):", oldClothes.getSize());
+        double newPrice = readDoubleWithDefault("New price (" + oldClothes.getPrice() + "):", oldClothes.getPrice());
+        String newBrand = readStringWithDefault("New brand (" + oldClothes.getBrand() + "):", oldClothes.getBrand());
+        String newMaterial = readStringWithDefault("New material (" + oldClothes.getMaterial() + "):", oldClothes.getMaterial());
+
+        Clothes newClothes;
+        if (oldClothes instanceof TShirts) {
+            boolean sleeve = readBooleanWithDefault("Long sleeve (" + ((TShirts)oldClothes).getLongSleeve() + "):", ((TShirts)oldClothes).getLongSleeve());
+            boolean prints = readBooleanWithDefault("Has prints (" + ((TShirts)oldClothes).getHasPrints() + "):", ((TShirts)oldClothes).getHasPrints());
+            newClothes = new TShirts(newName, newColor, newSize, newPrice, newBrand, newMaterial, sleeve, prints);
+        } else if (oldClothes instanceof Shirts) {
+            boolean sleeve = readBooleanWithDefault("Long sleeve (" + ((Shirts)oldClothes).getLongSleeve() + "):", ((Shirts)oldClothes).getLongSleeve());
+            newClothes = new Shirts(newName, newColor, newSize, newPrice, newBrand, newMaterial, sleeve);
+        } else if (oldClothes instanceof Jeans) {
+            boolean pockets = readBooleanWithDefault("Has pockets (:" + ((Jeans)oldClothes).getHasPockets() + "):", ((Jeans)oldClothes).getHasPockets());
+            boolean ripped = readBooleanWithDefault("Ripped (:" + ((Jeans)oldClothes).isRipped() + "):", ((Jeans)oldClothes).isRipped());
+            newClothes = new Jeans(newName, newColor, newSize, newPrice, newBrand, newMaterial, pockets, ripped);
+        } else {
+            boolean pockets = readBooleanWithDefault("Has pockets (" + ((Pants)oldClothes).getHasPockets() + "):", ((Pants)oldClothes).getHasPockets());
+            newClothes = new Pants(newName, newColor, newSize, newPrice, newBrand, newMaterial, pockets);
+        }
+
+        if (store.update(oldClothes, newClothes)) {
+            System.out.println("Object updated successfully");
+            System.out.println("New object: " + newClothes);
+        } else {
+            System.out.println("Failed to update object");
+        }
+    }
+
     //additional
 
     /**
@@ -495,5 +559,61 @@ public class Main {
         String material = readString("Enter material:");
 
         return new Object[]{name, color, size, price, brand, material};
+    }
+
+    private static String readStringWithDefault(String message, String defaultValue) {
+        System.out.print(message + " [Enter]: ");
+        String input = sc.nextLine().trim();
+        return input.isEmpty() ? defaultValue : input;
+    }
+
+    private static Size readSizeWithDefault(String message, Size defaultValue) {
+        while (true) {
+            System.out.print(message + " [Enter]: ");
+            String input = sc.nextLine().trim();
+            if (input.isEmpty()) {
+                return defaultValue;
+            }
+            try {
+                return Size.valueOf(input.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid size. Use: XXS, XS, S, M, L, XL, XXL");
+            }
+        }
+    }
+
+    private static double readDoubleWithDefault(String message, double defaultValue) {
+        while (true) {
+            System.out.print(message + " [Enter]: ");
+            String input = sc.nextLine().trim();
+            if (input.isEmpty()) {
+                return defaultValue;
+            }
+            try {
+                double value = Double.parseDouble(input);
+                if (value >= 0) {
+                    return value;
+                }
+                System.out.println("Price must be >= 0");
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number format");
+            }
+        }
+    }
+
+    private static boolean readBooleanWithDefault(String message, boolean defaultValue) {
+        while (true) {
+            System.out.print(message + " [Enter]: ");
+            String input = sc.nextLine().trim();
+            if (input.isEmpty()) {
+                return defaultValue;
+            }
+            if (input.equalsIgnoreCase("true") || input.equalsIgnoreCase("t")) {
+                return true;
+            } else if (input.equalsIgnoreCase("false") || input.equalsIgnoreCase("f")) {
+                return false;
+            }
+            System.out.println("Enter true/false or t/f");
+        }
     }
 }
